@@ -9,6 +9,12 @@ T gcd(T a, T b)
         std::swap(a%=b,b);
     return a;
 }
+// Least Common Multiple
+template<class T>
+T lcm(T a, T b)
+{
+    return a/gcd(a,b)*b;
+}
 
 // Longest Common Subsequence
 template<class T, class S=int>

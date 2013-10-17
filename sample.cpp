@@ -8,10 +8,12 @@
 int main()
 {
     // Greatest Common Divisor
+    // Least Common Multiple
     {
         const int a = 2*3*3*7*13*13*13;
         const int b = 2*3*5*7*11*13*13;
         assert(2*3*7*13*13==gcd(a,b));
+        assert(2*3*3*5*7*11*13*13*13==lcm(a,b));
     }
     // Longest Common Subsequence
     assert(3==lcs<std::string>("13579","395678"));
