@@ -1,6 +1,15 @@
 #include <vector>
 #include <algorithm>
 
+// Greatest Common Divisor
+template<class T>
+T gcd(T a, T b)
+{
+    while(b)
+        std::swap(a%=b,b);
+    return a;
+}
+
 // Longest Common Subsequence
 template<class T, class S=int>
 S lcs(const T& a, const T& b)
