@@ -16,6 +16,78 @@ T lcm(T a, T b)
     return a/gcd(a,b)*b;
 }
 
+// Power
+template<class T, class U>
+T POW(T a, U n)
+{
+    T t=1;
+    while(n)
+    {
+        if(n&1) t*=a;
+        a*=a;
+        n>>=1;
+    }
+    return t;
+}
+// Combination
+template<class T, class U=T>
+U C(T n, T k)
+{
+    U r=1;
+    k=std::max(k,n-k);
+    for(T i=n; i>k; --i)
+        r*=i;
+    k=n-k;
+    for(T i=2; i<=k; ++i)
+        r/=i;
+    return r;
+}
+
+// Modulo Integer
+static constexpr int MOD = 1000000007;
+template<class T, T M=MOD, class U=T>
+class mint
+{
+    T v;
+    inline static T add(T a, T b){ return a+b; }
+    inline static T sub(T a, T b){ return a-b+M; }
+    inline static U mul(T a, T b){ return U(a)*b; }
+    inline static U div(T a, T b){ return U(a)*inv(b); }
+    // gcd(a,M) must be 1
+    static T inv(T a)
+    {
+        T b=M;
+        T u=0, v=1;
+        while(a)
+        {
+            T t=b/a;
+            std::swap(b-=t*a,a);
+            std::swap(u-=t*v,v);
+        }
+        return (u+M)%M;
+    }
+public:
+    T get() const { return v; }
+    mint():v(0){}
+    mint(const mint& m):v(m.v){}
+    template<class S> mint(S i):v(i%M){}
+    mint& operator+=(const mint& m){ return *this = add(v,m.v); }
+    mint& operator-=(const mint& m){ return *this = sub(v,m.v); }
+    mint& operator*=(const mint& m){ return *this = mul(v,m.v); }
+    mint& operator/=(const mint& m){ return *this = div(v,m.v); }
+    mint operator+(const mint& m) const { return add(v,m.v); }
+    mint operator-(const mint& m) const { return sub(v,m.v); }
+    mint operator*(const mint& m) const { return mul(v,m.v); }
+    mint operator/(const mint& m) const { return div(v,m.v); }
+    template<class S> mint pow(S n) const { return POW(*this,n); }
+    template<class S> static mint pow(S a, S n){ return POW<mint,S>(a,n); }
+    template<class S> static mint c(S n, S k){ return C<S,mint>(n,k); }
+};
+template<class S, class T, T M, class U=T> mint<T,M,U> operator+(S l, mint<T,M,U> r){ return mint<T,M,U>(l)+=r; }
+template<class S, class T, T M, class U=T> mint<T,M,U> operator-(S l, mint<T,M,U> r){ return mint<T,M,U>(l)-=r; }
+template<class S, class T, T M, class U=T> mint<T,M,U> operator*(S l, mint<T,M,U> r){ return mint<T,M,U>(l)*=r; }
+template<class S, class T, T M, class U=T> mint<T,M,U> operator/(S l, mint<T,M,U> r){ return mint<T,M,U>(l)/=r; }
+
 // Longest Common Subsequence
 template<class T, class S=int>
 S lcs(const T& a, const T& b)

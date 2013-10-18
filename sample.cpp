@@ -15,6 +15,19 @@ int main()
         assert(2*3*7*13*13==gcd(a,b));
         assert(2*3*3*5*7*11*13*13*13==lcm(a,b));
     }
+    // Modulo Integer
+    {
+        typedef mint<int,13> mi;
+        assert(1==(mi(9)+5).get());
+        assert(12==(mi(1)-2).get());
+        assert(2==(mi(3)*5).get());
+        assert(7==(mi(1)/2).get());
+        assert(3==mi(3).pow(4).get());
+        assert(6==mi::pow(2,5).get());
+        assert(2==mi::c(10,4).get());
+        mint<int,1000000007,long long> a(100000);
+        assert(999999937==(a*a).get()); // no overflow
+    }
     // Longest Common Subsequence
     assert(3==lcs<std::string>("13579","395678"));
     {
