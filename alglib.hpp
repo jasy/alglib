@@ -1,5 +1,6 @@
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 // Greatest Common Divisor
 template<class T>
@@ -105,4 +106,16 @@ S lcs(const T& a, const T& b)
         dp.swap(dpn);
     }
     return dp[N];
+}
+
+// Warshall-Floyd
+template<class T> struct minimum{ const T& operator()(const T& a, const T& b){ return std::min<T>(a,b); } };
+template<template<class> class F=std::plus, template<class> class G=minimum, class T, class U=typename T::value_type::value_type>
+void wf(T& g)
+{
+    const int N = g.size();
+    for(int k=0; k<N; ++k)
+        for(int i=0; i<N; ++i)
+            for(int j=0; j<N; ++j)
+                g[i][j] = G<U>()(g[i][j],F<U>()(g[i][k],g[k][j]));
 }
