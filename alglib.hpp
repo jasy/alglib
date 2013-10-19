@@ -45,7 +45,9 @@ U C(T n, T k)
 
 // Modulo Integer
 static constexpr int MOD = 1000000007;
-template<class T, T M=MOD, class U=T>
+template<class T1, class T2, bool B=(sizeof(T1)>=sizeof(T2))> struct max_type{ typedef T1 type; };
+template<class T1, class T2> struct max_type<T1,T2,false>{ typedef T2 type; };
+template<class T, T M=MOD, class U=typename max_type<T,long long>::type>
 class mint
 {
     T v;
@@ -67,6 +69,7 @@ class mint
         return (u+M)%M;
     }
 public:
+    typedef T value_type;
     T get() const { return v; }
     mint():v(0){}
     mint(const mint& m):v(m.v){}
@@ -79,9 +82,9 @@ public:
     mint operator-(const mint& m) const { return sub(v,m.v); }
     mint operator*(const mint& m) const { return mul(v,m.v); }
     mint operator/(const mint& m) const { return div(v,m.v); }
-    template<class S> mint pow(S n) const { return POW(*this,n); }
-    template<class S> static mint pow(S a, S n){ return POW<mint,S>(a,n); }
-    template<class S> static mint c(S n, S k){ return C<S,mint>(n,k); }
+    mint pow(T n) const { return POW(*this,n); }
+    static mint pow(T a, T n){ return POW<mint,T>(a,n); }
+    static mint c(T n, T k){ return C<T,mint>(n,k); }
 };
 template<class S, class T, T M, class U=T> mint<T,M,U> operator+(S l, mint<T,M,U> r){ return mint<T,M,U>(l)+=r; }
 template<class S, class T, T M, class U=T> mint<T,M,U> operator-(S l, mint<T,M,U> r){ return mint<T,M,U>(l)-=r; }

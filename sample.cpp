@@ -25,7 +25,7 @@ int main()
         assert(3==mi(3).pow(4).get());
         assert(6==mi::pow(2,5).get());
         assert(2==mi::c(10,4).get());
-        mint<int,1000000007,long long> a(100000);
+        mint<int> a(100000);
         assert(999999937==(a*a).get()); // no overflow
     }
     // Longest Common Subsequence
