@@ -17,6 +17,18 @@ T lcm(T a, T b)
     return a/gcd(a,b)*b;
 }
 
+// Integer Square Root
+template<class T>
+T isqrt(const T& i)
+{
+    if(i<=0) return 0;
+    T x=1, y=i;
+    while(x<=y) x<<=1, y>>=1;
+    do std::swap(x, y=(x+i/x)>>1);
+    while(x<y);
+    return y;
+}
+
 // Power
 template<class T, class U>
 T POW(T a, U n)

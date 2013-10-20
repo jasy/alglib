@@ -16,6 +16,18 @@ int main()
         assert(2*3*7*13*13==gcd(a,b));
         assert(2*3*3*5*7*11*13*13*13==lcm(a,b));
     }
+    // Integer Square Root
+    {
+        assert(0==isqrt(0));
+        assert(1==isqrt(1));
+        assert(1==isqrt(3));
+        assert(2==isqrt(4));
+        assert(2==isqrt(8));
+        assert(3==isqrt(9));
+        assert(3999999999ULL==isqrt(15999999999999999999ULL));
+        assert(4000000000ULL==isqrt(16000000000000000000ULL));
+        assert(4000000000ULL==isqrt(16000000000000000001ULL));
+    }
     // Modulo Integer
     {
         typedef mint<int,13> mi;
