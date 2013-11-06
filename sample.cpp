@@ -66,5 +66,8 @@ int main()
         wf<std::logical_and,std::logical_or>(b);
         assert(b[0][N-1]);
     }
+    // Area of triangle
+    assert(0.5==area_of_triangle(1,1,0,0,1,0));
+    assert(  6==area_of_triangle(3,4,3,0,0,4));
     return 0;
 }

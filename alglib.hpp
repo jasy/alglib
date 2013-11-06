@@ -1,6 +1,7 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <cmath>
 
 // Greatest Common Divisor
 template<class T>
@@ -130,4 +131,10 @@ void wf(T& g)
         for(int i=0; i<N; ++i)
             for(int j=0; j<N; ++j)
                 g[i][j] = G<U>()(g[i][j],F<U>()(g[i][k],g[k][j]));
+}
+
+// Area of triangle
+double area_of_triangle(double x1, double y1, double x2, double y2, double x3, double y3)
+{
+    return std::abs(x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2))/2;
 }
