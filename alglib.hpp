@@ -1,6 +1,7 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <numeric>
 #include <cmath>
 
 // Greatest Common Divisor
@@ -137,4 +138,33 @@ void wf(T& g)
 double area_of_triangle(double x1, double y1, double x2, double y2, double x3, double y3)
 {
     return std::abs(x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2))/2;
+}
+
+// Probability of Complete Gacha
+template<class T=double, class U>
+T comp_gacha(U ns)
+{
+    const int N = ns.size();
+    const T s = std::accumulate(ns.begin(),ns.end(),T());
+    std::vector<T> p(N);
+    std::transform(ns.begin(),ns.end(),p.begin(),[&s](const T& x){ return x/s; });
+    std::vector<T> dp(1<<N);
+    for(int b=1; b<1<<N; ++b)
+    {
+        T t=0, r=0;
+        for(int i=0; i<N; ++i)
+            if(b&1<<i)
+                r+=p[i], t+=dp[b^1<<i]*p[i];
+        dp[b]=(1+t)/r;
+    }
+    return dp[(1<<N)-1];
+}
+
+template<class T=double>
+T comp_gacha_avg(int n)
+{
+    T t=0;
+    for(int i=n; i>0; --i)
+        t += static_cast<T>(n)/i;
+    return t;
 }

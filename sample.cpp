@@ -69,5 +69,16 @@ int main()
     // Area of triangle
     assert(0.5==area_of_triangle(1,1,0,0,1,0));
     assert(  6==area_of_triangle(3,4,3,0,0,4));
+    // Probability of Complete Gacha
+    {
+        std::vector<int> a = { 1, 1 };
+        assert(3==comp_gacha(a));
+        assert(3==comp_gacha_avg(2));
+        std::vector<int> b = { 1, 4, 5 };
+        auto s145 = comp_gacha(b);
+        assert(10.722222 < s145);assert(s145 < 10.722223);
+        auto avg50 = comp_gacha_avg(50);
+        assert(224.960266 < avg50);assert(avg50 < 224.960267);
+    }
     return 0;
 }
