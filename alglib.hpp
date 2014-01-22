@@ -88,23 +88,20 @@ public:
     T get() const { return v; }
     mint():v(0){}
     mint(const mint& m):v(m.v){}
-    template<class S> mint(S i):v(i%M){}
+    mint(T i):v(i%M){}
+    mint(U i):v(i%M){}
     mint& operator+=(const mint& m){ return *this = add(v,m.v); }
     mint& operator-=(const mint& m){ return *this = sub(v,m.v); }
     mint& operator*=(const mint& m){ return *this = mul(v,m.v); }
     mint& operator/=(const mint& m){ return *this = div(v,m.v); }
-    mint operator+(const mint& m) const { return add(v,m.v); }
-    mint operator-(const mint& m) const { return sub(v,m.v); }
-    mint operator*(const mint& m) const { return mul(v,m.v); }
-    mint operator/(const mint& m) const { return div(v,m.v); }
+    friend mint operator+(const mint& l, const mint& r){ return add(l.v,r.v); }
+    friend mint operator-(const mint& l, const mint& r){ return sub(l.v,r.v); }
+    friend mint operator*(const mint& l, const mint& r){ return mul(l.v,r.v); }
+    friend mint operator/(const mint& l, const mint& r){ return div(l.v,r.v); }
     mint pow(T n) const { return POW(*this,n); }
     static mint pow(T a, T n){ return POW<mint,T>(a,n); }
     static mint c(T n, T k){ return C<T,mint>(n,k); }
 };
-template<class S, class T, T M, class U=T> mint<T,M,U> operator+(S l, mint<T,M,U> r){ return mint<T,M,U>(l)+=r; }
-template<class S, class T, T M, class U=T> mint<T,M,U> operator-(S l, mint<T,M,U> r){ return mint<T,M,U>(l)-=r; }
-template<class S, class T, T M, class U=T> mint<T,M,U> operator*(S l, mint<T,M,U> r){ return mint<T,M,U>(l)*=r; }
-template<class S, class T, T M, class U=T> mint<T,M,U> operator/(S l, mint<T,M,U> r){ return mint<T,M,U>(l)/=r; }
 
 // Longest Common Subsequence
 template<class T, class S=int>

@@ -32,9 +32,13 @@ int main()
     {
         typedef mint<int,13> mi;
         assert(1==(mi(9)+5).get());
+        assert(1==(9+mi(5)).get());
         assert(12==(mi(1)-2).get());
+        assert(12==(1-mi(2)).get());
         assert(2==(mi(3)*5).get());
+        assert(2==(3*mi(5)).get());
         assert(7==(mi(1)/2).get());
+        assert(7==(1/mi(2)).get());
         assert(3==mi(3).pow(4).get());
         assert(6==mi::pow(2,5).get());
         assert(2==mi::c(10,4).get());
