@@ -59,10 +59,9 @@ U C(T n, T k)
 }
 
 // Modulo Integer
-static constexpr int MOD = 1000000007;
 template<class T1, class T2, bool B=(sizeof(T1)>=sizeof(T2))> struct max_type{ typedef T1 type; };
 template<class T1, class T2> struct max_type<T1,T2,false>{ typedef T2 type; };
-template<class T, T M=MOD, class U=typename max_type<T,long long>::type>
+template<class T=int, T M=1000000007, class U=typename max_type<T,long long>::type>
 class mint
 {
     T v;
@@ -85,10 +84,9 @@ class mint
     }
 public:
     typedef T value_type;
-    T get() const { return v; }
-    mint():v(0){}
+    T operator()() const { return v; }
     mint(const mint& m):v(m.v){}
-    mint(T i):v(i%M){}
+    mint(T i=T()):v(i%M){}
     mint(U i):v(i%M){}
     mint& operator+=(const mint& m){ return *this = add(v,m.v); }
     mint& operator-=(const mint& m){ return *this = sub(v,m.v); }
