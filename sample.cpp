@@ -44,6 +44,12 @@ int main()
         assert(2==mi::c(10,4)());
         mint<int> a(100000);
         assert(999999937==(a*a)()); // no overflow
+        typedef mint<short,13> ms;
+        assert(1==(ms(9)+5)());
+        assert(6==ms::pow(2,5)());
+        assert(2==ms::c(10,4)());
+        mint<long long> b(100000);
+        assert(999999937==(b*b)());
     }
     // Longest Common Subsequence
     assert(3==lcs<std::string>("13579","395678"));

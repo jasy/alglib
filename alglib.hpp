@@ -49,7 +49,7 @@ template<class T, class U=T>
 U C(T n, T k)
 {
     U r=1;
-    k=std::max(k,n-k);
+    k=std::max<T>(k,n-k);
     for(T i=n; i>k; --i)
         r*=i;
     k=n-k;
@@ -65,10 +65,12 @@ template<class T=int, T M=1000000007, class U=typename max_type<T,long long>::ty
 class mint
 {
     T v;
-    inline static T add(T a, T b){ return a+b; }
-    inline static T sub(T a, T b){ return a-b+M; }
-    inline static U mul(T a, T b){ return U(a)*b; }
-    inline static U div(T a, T b){ return U(a)*inv(b); }
+    struct Mul{ T v; Mul(T a, T b):v(U(a)*b%M){} };
+    mint(const Mul& m):v(m.v){}
+    inline static mint add(T a, T b){ return a+b; }
+    inline static mint sub(T a, T b){ return add(a,M-b); }
+    inline static mint mul(T a, T b){ return Mul(a,b); }
+    inline static mint div(T a, T b){ return mul(a,inv(b)); }
     // gcd(a,M) must be 1
     static T inv(T a)
     {
@@ -87,7 +89,6 @@ public:
     T operator()() const { return v; }
     mint(const mint& m):v(m.v){}
     mint(T i=T()):v(i%M){}
-    mint(U i):v(i%M){}
     mint& operator+=(const mint& m){ return *this = add(v,m.v); }
     mint& operator-=(const mint& m){ return *this = sub(v,m.v); }
     mint& operator*=(const mint& m){ return *this = mul(v,m.v); }
