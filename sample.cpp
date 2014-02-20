@@ -10,11 +10,16 @@ int main()
 {
     // Greatest Common Divisor
     // Least Common Multiple
+    // Extended Greatest Common Divisor
     {
         const int a = 2*3*3*7*13*13*13;
         const int b = 2*3*5*7*11*13*13;
         assert(2*3*7*13*13==gcd(a,b));
         assert(2*3*3*5*7*11*13*13*13==lcm(a,b));
+        int x=0,y=0;
+        assert(2*3*7*13*13==extgcd(a,b,x,y));
+        assert(x==24);
+        assert(y==-17);
     }
     // Integer Square Root
     {

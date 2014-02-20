@@ -19,6 +19,24 @@ T lcm(T a, T b)
     return a/gcd(a,b)*b;
 }
 
+// Extended Greatest Common Divisor
+template<class T>
+T extgcd(T a, T b, T& x, T& y)
+{
+    T s=0, t=1;
+    T u=1, v=0;
+    while(a)
+    {
+        T w=b/a;
+        std::swap(b-=w*a,a);
+        std::swap(s-=w*t,t);
+        std::swap(u-=w*v,v);
+    }
+    x=s;
+    y=u;
+    return b;
+}
+
 // Integer Square Root
 template<class T>
 T isqrt(const T& i)
