@@ -37,6 +37,18 @@ T extgcd(T a, T b, T& x, T& y)
     return b;
 }
 
+// Prime Factors
+template<class T>
+std::vector<T> primes(T n)
+{
+    std::vector<T> ps;
+    for(T i=2; i*i<=n; ++i)
+        while(n%i==0)
+            n/=i,ps.push_back(i);
+    if(n>1) ps.push_back(n);
+    return ps;
+}
+
 // Integer Square Root
 template<class T>
 T isqrt(const T& i)

@@ -21,6 +21,9 @@ int main()
         assert(x==24);
         assert(y==-17);
     }
+    // Prime Factors
+    assert(primes(103)==std::vector<int>({103}));
+    assert(primes(2*3*3*7*13*13*13)==std::vector<int>({2,3,3,7,13,13,13}));
     // Integer Square Root
     {
         assert(0==isqrt(0));
