@@ -24,6 +24,26 @@ int main()
     // Prime Factors
     assert(primes(103)==std::vector<int>({103}));
     assert(primes(2*3*3*7*13*13*13)==std::vector<int>({2,3,3,7,13,13,13}));
+    // Euler's phi function
+    assert(euler_phi(1)==1);
+    assert(euler_phi(2)==1);
+    assert(euler_phi(3)==2);
+    assert(euler_phi(4)==2);
+    assert(euler_phi(5)==4);
+    assert(euler_phi(6)==2);
+    assert(euler_phi(7)==6);
+    assert(euler_phi(8)==4);
+    assert(euler_phi(9)==6);
+    assert(euler_phi(10)==4);
+    assert(euler_phi(11)==10);
+    assert(euler_phi(12)==4);
+    assert(euler_phi(13)==12);
+    assert(euler_phi(14)==6);
+    assert(euler_phi(15)==8);
+    assert(euler_phi(16)==8);
+    assert(euler_phi(5186)==2592);
+    assert(euler_phi(5187)==2592);
+    assert(euler_phi(5188)==2592);
     // Integer Square Root
     {
         assert(0==isqrt(0));

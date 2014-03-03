@@ -49,6 +49,21 @@ std::vector<T> primes(T n)
     return ps;
 }
 
+// Euler's phi function
+template<class T>
+T euler_phi(T n)
+{
+    T p=n;
+    for(T i=2; i*i<=n; ++i)
+        if(n%i==0)
+        {
+            p=p/i*(i-1);
+            do n/=i; while(n%i==0);
+        }
+    if(n>1) p=p/n*(n-1);
+    return p;
+}
+
 // Integer Square Root
 template<class T>
 T isqrt(const T& i)
