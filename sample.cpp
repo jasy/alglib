@@ -21,6 +21,19 @@ int main()
         assert(x==24);
         assert(y==-17);
     }
+    // Prime
+    assert( prime(2));
+    assert( prime(3));
+    assert(!prime(4));
+    assert( prime(5));
+    assert(!prime(6));
+    assert( prime(7));
+    assert(!prime(8));
+    assert(!prime(9));
+    assert( prime(9999991));
+    assert(!prime(99999991));
+    assert( prime(129402307));
+    assert( prime(282437925089LL));
     // Prime Factors
     assert(primes(103)==std::vector<int>({103}));
     assert(primes(2*3*3*7*13*13*13)==std::vector<int>({2,3,3,7,13,13,13}));

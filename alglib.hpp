@@ -37,6 +37,16 @@ T extgcd(T a, T b, T& x, T& y)
     return b;
 }
 
+// Prime
+template<class T>
+bool prime(T n)
+{
+    for(T i=2; i*i<=n; ++i)
+        if(n%i==0)
+            return false;
+    return true;
+}
+
 // Prime Factors
 template<class T>
 std::vector<T> primes(T n)
