@@ -2,6 +2,9 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <map>
+#include <array>
+#include <tuple>
 #include <cassert>
 
 #include "alglib.hpp"
@@ -116,6 +119,15 @@ int main()
             b[i][i+1]=b[i+1][i]=true;
         wf<std::logical_and,std::logical_or>(b);
         assert(b[0][N-1]);
+    }
+    // Bipartite Matching
+    {
+        std::vector<std::pair<int,int>> edges1 = {{0,3},{0,4},{0,5},{1,3},{1,4},{2,3}};
+        assert(3==bm(edges1,6));
+        std::multimap<int,int> edges2 = {{0,4},{0,6},{0,7},{1,4},{1,5},{1,8},{2,5},{2,8},{3,6}};
+        assert(4==bm(edges2,9));
+        std::array<std::tuple<int,int>,1> edges3 = {{{0,1}}};
+        assert(1==bm(edges3,2));
     }
     // Area of triangle
     assert(0.5==area_of_triangle(1,1,0,0,1,0));

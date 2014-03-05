@@ -185,6 +185,43 @@ void wf(T& g)
                 g[i][j] = G<U>()(g[i][j],F<U>()(g[i][k],g[k][j]));
 }
 
+// Bipartite Matching
+template<class T, class U>
+int bm(const T& edges, U max_v)
+{
+    std::vector<std::vector<U>> g(max_v,std::vector<U>());
+    std::vector<U> match(max_v,max_v);
+    std::vector<bool> used;
+    std::function<bool(U)> dfs;
+    dfs = [&](U v){
+        used[v]=true;
+        for(auto u: g[v]){
+            auto w = match[u];
+            if(w==max_v || (!used[w] && dfs(w))){
+                match[v]=u;
+                match[u]=v;
+                return true;
+            }
+        }
+        return false;
+    };
+    for(auto& p: edges)
+    {
+        U a,b; std::tie(a,b)=p;
+        g[a].push_back(b),
+        g[b].push_back(a);
+    }
+    int c=0;
+    for(U v=0; v<max_v; ++v)
+        if(match[v]==max_v)
+        {
+            used.assign(max_v,false);
+            if(dfs(v))
+                ++c;
+        }
+    return c;
+}
+
 // Area of triangle
 double area_of_triangle(double x1, double y1, double x2, double y2, double x3, double y3)
 {
