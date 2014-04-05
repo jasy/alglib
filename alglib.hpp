@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <functional>
 #include <numeric>
+#include <limits>
 #include <cmath>
 
 // Greatest Common Divisor
@@ -171,6 +172,18 @@ S lcs(const T& a, const T& b)
         dp.swap(dpn);
     }
     return dp[N];
+}
+
+// Longest Incleasing Subsequence
+template<class T, class S=typename T::value_type>
+int lis(const T& a)
+{
+    const int N = a.size();
+    const S INF = std::numeric_limits<S>::max();
+    std::vector<S> dp(N,INF);
+    for(const auto v: a)
+        *std::lower_bound(dp.begin(),dp.end(),v) = v;
+    return std::lower_bound(dp.begin(),dp.end(),INF)-dp.begin();
 }
 
 // Warshall-Floyd
