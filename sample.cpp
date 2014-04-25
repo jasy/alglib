@@ -102,7 +102,7 @@ int main()
         std::vector<int> b = {  2,  3, 30,  4,  5,  6, 31,  7, 32,  9, 10, 11, 12, 33, 14, 15, 16, 34, 17, 19, 20, 22, 35, 24, 36, 37, 25, 26, 27, 38, 39 };
         assert(21==lcs(a,b));
     }
-    // Longest Incleasing Subsequence
+    // Longest Increasing Subsequence
     assert(4==lis(std::string("135246")));
     assert(1==lis(std::string("54321")));
     assert(7==lis(std::string("1234567")));

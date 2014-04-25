@@ -174,13 +174,12 @@ S lcs(const T& a, const T& b)
     return dp[N];
 }
 
-// Longest Incleasing Subsequence
+// Longest Increasing Subsequence
 template<class T, class S=typename T::value_type>
 int lis(const T& a)
 {
-    const int N = a.size();
     const S INF = std::numeric_limits<S>::max();
-    std::vector<S> dp(N,INF);
+    std::vector<S> dp(a.size(),INF);
     for(const auto v: a)
         *std::lower_bound(dp.begin(),dp.end(),v) = v;
     return std::lower_bound(dp.begin(),dp.end(),INF)-dp.begin();
