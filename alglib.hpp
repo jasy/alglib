@@ -241,7 +241,7 @@ double area_of_triangle(double x1, double y1, double x2, double y2, double x3, d
 }
 
 // Probability of Complete Gacha
-template<class T=double, class U>
+template<class T=double, class U=std::vector<T>>
 T comp_gacha(U ns)
 {
     const int N = ns.size();
