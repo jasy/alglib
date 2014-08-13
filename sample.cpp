@@ -131,7 +131,8 @@ int main()
         assert(3==bm(edges1,6));
         std::multimap<int,int> edges2 = {{0,4},{0,6},{0,7},{1,4},{1,5},{1,8},{2,5},{2,8},{3,6}};
         assert(4==bm(edges2,9));
-        std::array<std::tuple<int,int>,1> edges3 = {{{0,1}}};
+        typedef std::tuple<int,int> T3;
+        std::array<T3,1> edges3 = {{T3{0,1}}};
         assert(1==bm(edges3,2));
     }
     // Area of triangle
