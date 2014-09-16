@@ -238,7 +238,7 @@ public:
             for(V j=0; j<N; ++j)
                 p[j][i+1] = p[p[j][i]][i];
     }
-    V lca(V a, V b)
+    V lca(V a, V b) const
     {
         if(r[a]<r[b]) std::swap(a,b);
         for(int i=0; i<l2; ++i)
@@ -248,7 +248,7 @@ public:
             if(p[a][i]!=p[b][i]) a=p[a][i],b=p[b][i];
         return p[a][0];
     }
-    int distance(const V a, const V b)
+    int distance(const V a, const V b) const
     {
         return r[a]+r[b]-2*r[lca(a,b)];
     }
