@@ -197,6 +197,63 @@ void wf(T& g)
                 g[i][j] = G<U>()(g[i][j],F<U>()(g[i][k],g[k][j]));
 }
 
+// Lowest Common Ancestor
+class LCA
+{
+    typedef int V;
+    const V N=0;
+    const int l2=0;
+    std::vector<std::vector<V>> g;
+    std::vector<int> r;
+    std::vector<std::vector<V>> p;
+    void make(const V s, const V t, const int d)
+    {
+        r[t]=d;
+        for(auto v: g[t]) if(v!=s)
+        {
+            p[v][0]=t;
+            make(t,v,d+1);
+        }
+    }
+    static int lg(const V n)
+    {
+        int i=0;
+        while(n>(V(1)<<i)+1) ++i;
+        return i+1;
+    }
+    LCA(){}
+public:
+    LCA(const std::vector<std::pair<V,V>>& edges)
+        :N(edges.size()+1),l2(lg(N)),
+        g(N),r(N),p(N,std::vector<int>(l2))
+    {
+        for(auto& v: edges)
+        {
+            V x,y; std::tie(x,y)=v;
+            g[x].emplace_back(y);
+            g[y].emplace_back(x);
+        }
+        make(N,0,0);
+        for(int i=0; i<l2-1; ++i)
+            for(V j=0; j<N; ++j)
+                p[j][i+1] = p[p[j][i]][i];
+    }
+    V lca(V a, V b)
+    {
+        if(r[a]<r[b]) std::swap(a,b);
+        for(int i=0; i<l2; ++i)
+            if((r[a]-r[b]) & (1<<i)) a=p[a][i];
+        if(a==b) return a;
+        for(int i=l2-1; i>=0; --i)
+            if(p[a][i]!=p[b][i]) a=p[a][i],b=p[b][i];
+        return p[a][0];
+    }
+    int distance(const V a, const V b)
+    {
+        return r[a]+r[b]-2*r[lca(a,b)];
+    }
+};
+
 // Bipartite Matching
 template<class T, class U>
 int bm(const T& edges, U max_v)

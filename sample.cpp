@@ -125,6 +125,21 @@ int main()
         wf<std::logical_and,std::logical_or>(b);
         assert(b[0][N-1]);
     }
+    //
+    {
+        std::vector<std::pair<int,int>> edges1 = {{2,0},{1,0},{1,3},{1,4},{2,5},{2,6}};
+        LCA lca1(edges1);
+        assert(2==lca1.distance(3,4));
+        assert(2==lca1.distance(0,5));
+        assert(4==lca1.distance(4,5));
+        assert(4==lca1.distance(3,6));
+        assert(3==lca1.distance(4,2));
+        std::vector<std::pair<int,int>> edges2 = {{0,1},{0,2},{0,3},{3,4}};
+        LCA lca2(edges2);
+        assert(2==lca2.distance(1,2));
+        assert(2==lca2.distance(1,3));
+        assert(3==lca2.distance(1,4));
+    }
     // Bipartite Matching
     {
         std::vector<std::pair<int,int>> edges1 = {{0,3},{0,4},{0,5},{1,3},{1,4},{2,3}};
