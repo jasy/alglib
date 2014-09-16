@@ -201,8 +201,8 @@ void wf(T& g)
 class LCA
 {
     typedef int V;
-    const V N=0;
-    const int l2=0;
+    const V N;
+    const int l2;
     std::vector<std::vector<V>> g;
     std::vector<int> r;
     std::vector<std::vector<V>> p;
@@ -221,7 +221,7 @@ class LCA
         while(n>(V(1)<<i)+1) ++i;
         return i+1;
     }
-    LCA(){}
+    LCA():N(0),l2(0){}
 public:
     LCA(const std::vector<std::pair<V,V>>& edges)
         :N(edges.size()+1),l2(lg(N)),
