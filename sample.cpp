@@ -125,7 +125,7 @@ int main()
         wf<std::logical_and,std::logical_or>(b);
         assert(b[0][N-1]);
     }
-    //
+    // Lowest Common Ancestor
     {
         std::vector<std::pair<int,int>> edges1 = {{2,0},{1,0},{1,3},{1,4},{2,5},{2,6}};
         const LCA lca1(edges1);
