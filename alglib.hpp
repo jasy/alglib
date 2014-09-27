@@ -291,6 +291,51 @@ int bm(const T& edges, U max_v)
     return c;
 }
 
+// Vector 2D
+template<class T>
+struct Vec2D
+{
+    T x,y;
+    explicit Vec2D(T x_=T(), T y_=T()):x(x_),y(y_){}
+    Vec2D(const std::pair<T,T>& p):x(p.first),y(p.second){}
+    Vec2D& operator+=(const Vec2D& v){ return *this = *this+v; }
+    Vec2D& operator-=(const Vec2D& v){ return *this = *this-v; }
+    friend Vec2D operator+(const Vec2D& l, const Vec2D& r){ return Vec2D(l.x+r.x,l.y+r.y); }
+    friend Vec2D operator-(const Vec2D& l, const Vec2D& r){ return Vec2D(l.x-r.x,l.y-r.y); }
+    friend T norm(const Vec2D& v){ return v.x*v.x+v.y*v.y; }
+    friend T dot(const Vec2D& l, const Vec2D& r){ return l.x*r.x+l.y*r.y; }
+    friend T cross(const Vec2D& l, const Vec2D& r){ return l.x*r.y-l.y*r.x; }
+    friend int dir(const Vec2D& l, const Vec2D& r)
+    {
+        // assert(norm(l)!=0);
+        const auto c = cross(l,r);
+        if(c>0) return 1;
+        if(c<0) return -1;
+        if(dot(l,r)<0) return -2;
+        if(norm(l)<norm(r)) return 2;
+        return 0;
+    }
+};
+
+// Line segment 2D
+template<class T>
+class Line2D
+{
+    Vec2D<T> a,b;
+    static bool judge(const Line2D& l, const Line2D& r)
+    {
+        auto v = l.b-l.a;
+        return dir(v,r.a-l.a)*dir(v,r.b-l.a)<=0;
+    }
+public:
+    explicit Line2D(T ax=T(), T ay=T(), T bx=T(), T by=T()):a(ax,ay),b(bx,by){}
+    Line2D(const Vec2D<T>& a_, const Vec2D<T>& b_):a(a_),b(b_){}
+    friend bool intersect(const Line2D& l, const Line2D& r)
+    {
+        return judge(l,r) && judge(r,l);
+    }
+};
+
 // Area of triangle
 double area_of_triangle(double x1, double y1, double x2, double y2, double x3, double y3)
 {

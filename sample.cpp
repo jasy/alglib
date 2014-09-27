@@ -150,6 +150,31 @@ int main()
         std::array<T3,1> edges3 = {{T3{0,1}}};
         assert(1==bm(edges3,2));
     }
+    // Line segment intersection
+    {
+        typedef Line2D<int> T;
+        const T a(1,1,4,4);
+        assert( intersect(a,T(1,2,2,1)));
+        assert( intersect(a,T(3,2,2,3)));
+        assert( intersect(a,T(3,4,4,3)));
+        assert( intersect(a,T(0,0,1,1)));
+        assert( intersect(a,T(2,2,1,1)));
+        assert( intersect(a,T(2,2,3,3)));
+        assert(!intersect(a,T(5,5,6,6)));
+        assert(!intersect(a,T(0,0,-1,-1)));
+        assert(!intersect(a,T(0,0,1,-1)));
+        assert(!intersect(a,T(0,0,-1,1)));
+        assert( intersect(a,T(0,2,1,1)));
+        assert( intersect(a,T(2,0,1,1)));
+        assert( intersect(a,T(0,2,2,0)));
+        assert(!intersect(a,T(0,1,1,0)));
+        assert(!intersect(a,T(0,2,-1,3)));
+        assert(!intersect(a,T(2,0,3,-1)));
+        assert(!intersect(a,T(1,2,3,4)));
+        assert(!intersect(a,T(2,1,4,3)));
+        assert(!intersect(a,T(1,4,2,3)));
+        assert(!intersect(a,T(3,2,4,1)));
+    }
     // Area of triangle
     assert(0.5==area_of_triangle(1,1,0,0,1,0));
     assert(  6==area_of_triangle(3,4,3,0,0,4));
