@@ -140,6 +140,33 @@ int main()
         assert(2==lca2.distance(1,3));
         assert(3==lca2.distance(1,4));
     }
+    // Union Find
+    {
+        {
+            UnionFind<int> uf(6);
+            assert(!uf.same(2,5));
+            std::vector<std::pair<int,int>> edges = {{0,4},{0,5},{1,3},{1,4},{2,3}};
+            for(auto& e: edges)
+                uf.unite(e.first,e.second);
+            for(auto& e: edges)
+                assert(uf.same(e.first,e.second));
+            assert( uf.same(2,5));
+        }
+        {
+            UnionFind<int> uf(6);
+            assert(!uf.same(2,5));
+            assert(!uf.same(1,2));
+            assert(!uf.same(4,5));
+            std::vector<std::pair<int,int>> edges = {{0,4},{0,5},{1,3},{2,3}};
+            for(auto& e: edges)
+                uf.unite(e.first,e.second);
+            for(auto& e: edges)
+                assert(uf.same(e.first,e.second));
+            assert(!uf.same(2,5));
+            assert( uf.same(1,2));
+            assert( uf.same(4,5));
+        }
+    }
     // Bipartite Matching
     {
         std::vector<std::pair<int,int>> edges1 = {{0,3},{0,4},{0,5},{1,3},{1,4},{2,3}};

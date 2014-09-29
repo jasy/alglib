@@ -254,6 +254,44 @@ public:
     }
 };
 
+// Union Find
+template<class T=int>
+class UnionFind
+{
+    std::vector<T> p;
+    std::vector<T> r;
+    T find(const T x)
+    {
+        if(x==p[x]) return x;
+        return p[x]=find(p[x]);
+    }
+    void unite_(T x, T y)
+    {
+        if(x==y) return;
+        if(r[x]>r[y]) std::swap(x,y);
+        else if(r[x]==r[y]) ++r[x];
+        p[y]=x;
+    }
+public:
+    explicit UnionFind(const T n):p(n),r(n,0)
+    {
+        for(T i=0; i<n; ++i)
+            p[i]=i;
+    }
+    bool same(const T x, const T y)
+    {
+        // assert(0<=x && x<p.size())
+        // assert(0<=y && y<p.size())
+        return find(x)==find(y);
+    }
+    void unite(const T x, const T y)
+    {
+        // assert(0<=x && x<p.size())
+        // assert(0<=y && y<p.size())
+        unite_(find(x),find(y));
+    }
+};
+
 // Bipartite Matching
 template<class T, class U>
 int bm(const T& edges, U max_v)
