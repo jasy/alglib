@@ -292,6 +292,26 @@ public:
     }
 };
 
+// Kruskal's algorithm
+template<class T, class U>
+T& kruskal(T& edges, U max_v)
+{
+    typedef typename T::value_type Edge;
+    std::sort(edges.begin(),edges.end());
+    UnionFind<U> uf(max_v);
+    edges.erase(
+        std::remove_if(edges.begin(),edges.end(),
+            [&uf](const Edge& e){
+                const auto& a = std::get<1>(e);
+                const auto& b = std::get<2>(e);
+                if(uf.same(a,b)) return true;
+                uf.unite(a,b);
+                return false;
+            }),
+        edges.end());
+    return edges;
+}
+
 // Bipartite Matching
 template<class T, class U>
 int bm(const T& edges, U max_v)
