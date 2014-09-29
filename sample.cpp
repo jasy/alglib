@@ -173,21 +173,21 @@ int main()
         typedef int Vertex;
         typedef std::tuple<Cost,Vertex,Vertex> Edge;
         std::vector<Edge> edges = {
-            { 40,0,1},
-            { 50,0,2},
-            { 30,0,3},
-            { 70,0,4},
-            { 70,0,5},
-            { 80,0,6},
-            { 80,0,7},
-            { 40,1,2},
-            { 50,1,3},
-            { 60,1,4},
-            { 90,2,5},
-            { 80,3,4},
-            {110,4,5},
-            { 60,5,6},
-            { 50,6,7},
+            Edge{ 40,0,1},
+            Edge{ 50,0,2},
+            Edge{ 30,0,3},
+            Edge{ 70,0,4},
+            Edge{ 70,0,5},
+            Edge{ 80,0,6},
+            Edge{ 80,0,7},
+            Edge{ 40,1,2},
+            Edge{ 50,1,3},
+            Edge{ 60,1,4},
+            Edge{ 90,2,5},
+            Edge{ 80,3,4},
+            Edge{110,4,5},
+            Edge{ 60,5,6},
+            Edge{ 50,6,7},
         };
         Cost t=0;
         for(auto& e: kruskal(edges, Vertex(8)))
