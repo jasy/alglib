@@ -229,9 +229,19 @@ int main()
         assert(!intersect(a,T(1,4,2,3)));
         assert(!intersect(a,T(3,2,4,1)));
     }
-    // Area of triangle
-    assert(0.5==area_of_triangle(1,1,0,0,1,0));
-    assert(  6==area_of_triangle(3,4,3,0,0,4));
+    // Triangle
+    {
+        assert(0.5==Triangle2D<double>(1,1,0,0,1,0).area());
+        assert(  6==Triangle2D<double>(3,4,3,0,0,4).area());
+        const auto EPS = 1e-9;
+        const Triangle2D<double> t(0,0,2,0,2,2);
+        auto p = t.circumcenter();
+        assert(1.0-EPS<=p.x && p.x<=1.0+EPS);
+        assert(1.0-EPS<=p.y && p.y<=1.0+EPS);
+        auto R = t.R();
+        auto sqrt2 = std::sqrt(2);
+        assert(sqrt2-EPS<=R && R<=sqrt2+EPS);
+    }
     // Probability of Complete Gacha
     {
         std::vector<int> a = { 1, 1 };
