@@ -419,6 +419,14 @@ public:
                         cross(vd,vb)/cross(vb,vc));
     }
     T R() const { return dist_a()*dist_b()*dist_c()/(4*area()); }
+    bool inside(const Vec2D<T>& p, bool line=true) const
+    {
+        const auto c1 = cross(b-a,p-a);
+        const auto c2 = cross(c-b,p-b);
+        const auto c3 = cross(a-c,p-c);
+        if(line) return (c1>=0&&c2>=0&&c3>=0)||(c1<=0&&c2<=0&&c3<=0);
+        else     return (c1> 0&&c2> 0&&c3> 0)||(c1< 0&&c2< 0&&c3< 0);
+    }
 };
 
 // Probability of Complete Gacha

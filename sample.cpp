@@ -241,6 +241,14 @@ int main()
         auto R = t.R();
         auto sqrt2 = std::sqrt(2);
         assert(sqrt2-EPS<=R && R<=sqrt2+EPS);
+        assert( t.inside(Vec2D<double>( 1.5, 0.5)));
+        assert( t.inside(Vec2D<double>( 0.0, 0.0)));
+        assert(!t.inside(Vec2D<double>( 1.0, 1.5)));
+        assert(!t.inside(Vec2D<double>( 2.0, 3.0)));
+        assert(!t.inside(Vec2D<double>( 3.0, 1.0)));
+        assert(!t.inside(Vec2D<double>( 3.0,-1.0)));
+        assert(!t.inside(Vec2D<double>( 1.0,-0.5)));
+        assert(!t.inside(Vec2D<double>(-1.0,-0.5)));
     }
     // Probability of Complete Gacha
     {
