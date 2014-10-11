@@ -269,7 +269,7 @@ class UnionFind
     {
         if(x==y) return;
         if(r[x]>r[y]) std::swap(x,y);
-        else if(r[x]==r[y]) ++r[x];
+        else if(r[x]==r[y]) ++r[y];
         p[x]=y;
     }
 public:
