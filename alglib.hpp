@@ -270,7 +270,7 @@ class UnionFind
         if(x==y) return;
         if(r[x]>r[y]) std::swap(x,y);
         else if(r[x]==r[y]) ++r[x];
-        p[y]=x;
+        p[x]=y;
     }
 public:
     explicit UnionFind(const T n):p(n),r(n,0)
