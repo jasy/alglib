@@ -4,6 +4,7 @@
 #include <numeric>
 #include <limits>
 #include <cmath>
+#include <type_traits>
 
 // Greatest Common Divisor
 template<class T>
@@ -115,8 +116,7 @@ U C(T n, T k)
 }
 
 // Modulo Integer
-template<class T1, class T2, bool B=(sizeof(T1)>=sizeof(T2))> struct max_type{ typedef T1 type; };
-template<class T1, class T2> struct max_type<T1,T2,false>{ typedef T2 type; };
+template<class T1, class T2> struct max_type{ typedef typename std::conditional<sizeof(T1)>=sizeof(T2),T1,T2>::type type; };
 template<class T=int, T M=1000000007, class U=typename max_type<T,long long>::type>
 class mint
 {
