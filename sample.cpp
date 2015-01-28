@@ -194,6 +194,54 @@ int main()
             t += std::get<0>(e);
         assert(350==t);
     }
+    // Dinic's algorithm
+    {
+        typedef int Capacity;
+        typedef int Vertex;
+        typedef std::tuple<Capacity,Vertex,Vertex> Edge;
+        {
+            std::vector<Edge> edges = {
+                Edge{1,0,1},
+                Edge{1,1,2},
+                Edge{1,1,3},
+                Edge{1,2,4},
+                Edge{1,3,4},
+            };
+            const Vertex N = 5;
+            assert(1==dinic(edges,N,0,N-1));
+        }
+        {
+            std::vector<Edge> edges = {
+                Edge{1,0,1},
+                Edge{1,0,2},
+                Edge{1,1,3},
+                Edge{1,2,3},
+                Edge{1,3,4},
+            };
+            const Vertex N = 5;
+            assert(1==dinic(edges,N,0,N-1));
+        }
+        {
+            std::vector<Edge> edges = {
+                Edge{1,0,1},
+                Edge{1,0,2},
+                Edge{1,0,3},
+                Edge{1,0,4},
+                Edge{1,1,5},
+                Edge{1,2,5},
+                Edge{1,5,6},
+                Edge{1,6,7},
+                Edge{1,6,8},
+                Edge{1,3,9},
+                Edge{1,4,9},
+                Edge{1,7,10},
+                Edge{1,8,10},
+                Edge{1,9,10},
+            };
+            const Vertex N = 11;
+            assert(2==dinic(edges,N,0,N-1));
+        }
+    }
     // Bipartite Matching
     {
         std::vector<std::pair<int,int>> edges1 = {{0,3},{0,4},{0,5},{1,3},{1,4},{2,3}};

@@ -1,4 +1,5 @@
 #include <vector>
+#include <queue>
 #include <algorithm>
 #include <functional>
 #include <numeric>
@@ -310,6 +311,66 @@ T& kruskal(T& edges, U max_v)
             }),
         edges.end());
     return edges;
+}
+
+// Dinic's algorithm
+template<class T, class U=int, class F=int>
+F dinic(const T& edges, U max_v, U s, U t)
+{
+    typedef typename T::value_type Edge;
+    std::vector<std::vector<Edge>> g(max_v);
+    for(auto& e: edges){
+        const auto& c = std::get<0>(e);
+        const auto& s = std::get<1>(e);
+        const auto& t = std::get<2>(e);
+        g[s].emplace_back(c, t, g[t].size());
+        g[t].emplace_back(0, s, g[s].size()-1);
+    }
+    const F INF = std::numeric_limits<F>::max()/2;
+    F flow=0;
+    for(;;){
+        std::vector<int> dist(max_v,-1); dist[s]=0;
+        {
+            std::queue<U> q; q.push(s);
+            while(!q.empty()){
+                auto v = q.front(); q.pop();
+                for(auto& e: g[v]){
+                    const auto& c = std::get<0>(e);
+                    const auto& t = std::get<1>(e);
+                    if(c>0 && dist[t]<0)
+                        dist[t] = dist[v]+1,
+                        q.push(t);
+                }
+            }
+        }
+        if(dist[t]<0) break;
+        std::vector<int> iter(max_v,0);
+        class Func{
+        public:
+            static F dfs(U v, U u, F f, std::vector<std::vector<Edge>>& g, const std::vector<int>& dist, std::vector<int>& iter){
+                if(v==u) return f;
+                const int N = g[v].size();
+                for(auto& i=iter[v]; i<N; ++i){
+                    auto& e = g[v][i];
+                    auto& c = std::get<0>(e);
+                    const auto& t = std::get<1>(e);
+                    const auto& r = std::get<2>(e);
+                    if(c>0 && dist[v] < dist[t]){
+                        F d = dfs(t, u, std::min(f,c), g, dist, iter);
+                        if(d!=0){
+                            c-=d;
+                            std::get<0>(g[t][r])+=d;
+                            return d;
+                        }
+                    }
+                }
+                return 0;
+            }
+        };
+        F f;
+        while((f = Func::dfs(s, t, INF, g, dist, iter))>0) flow += f;
+    }
+    return flow;
 }
 
 // Bipartite Matching
