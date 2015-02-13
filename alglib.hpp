@@ -197,6 +197,22 @@ public:
         return i;
     }
 };
+template<class T>
+class fenwick_range
+{
+    fenwick<T> p,q;
+public:
+    explicit fenwick_range(size_t N):p(N+1),q(N+1){}
+    void add(size_t i, size_t j, T v)
+    {
+        p.add(i,-v*T(i));
+        p.add(j, v*T(j));
+        q.add(i, v);
+        q.add(j,-v);
+    }
+    T sum(size_t i){ return p.sum(i+1)+q.sum(i+1)*T(i); }
+    T sum(size_t i, size_t j){ return sum(j)-sum(i); }
+};
 
 // Longest Common Subsequence
 template<class T, class S=int>

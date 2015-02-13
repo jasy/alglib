@@ -97,7 +97,7 @@ int main()
     }
     // Fenwick Tree (Binary Indexed Tree)
     {
-        enum{ N=100 };
+        enum{ N=10 };
         fenwick<int> t(N);
         t.add(0,1);
         t.add(N/2,1);
@@ -119,6 +119,16 @@ int main()
         assert(N*N==t.sum(0,N));
         for(int i=0; i<N; ++i){ assert(N*(N-i)==t.sum(i,N)); }
     }
+    {
+        enum{ N=10 };
+        fenwick_range<int> t(N);
+        for(int i=0; i<N; ++i) t.add(i,N,1);
+        assert(N*(N+1)/2==t.sum(N));
+        for(int i=0; i<N; ++i){ assert(i*(i+1)/2==t.sum(i)); }
+        for(int i=0; i<N; ++i) t.add(0,i,1);
+        assert(N*N==t.sum(0,N));
+        for(int i=0; i<N; ++i){ assert(N*(N-i)==t.sum(i,N)); }
+    }
     // Longest Common Subsequence
     assert(3==lcs<std::string>("13579","395678"));
     {
@@ -133,7 +143,7 @@ int main()
     assert(6==lis(std::vector<int>({1,3,4,5,6,7,2})));
     // Warshall-Floyd
     {
-        const int N = 100;
+        const int N = 10;
         std::vector<std::vector<int>> a(N,std::vector<int>(N,1000000000));
         for(int i=0; i<N; ++i)
             a[i][i]=0;
