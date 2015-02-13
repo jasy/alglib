@@ -159,6 +159,45 @@ public:
     static mint c(T n, T k){ return C<T,mint>(n,k); }
 };
 
+// Fenwick Tree (Binary Indexed Tree)
+template<class T>
+class fenwick
+{
+    std::vector<T> a;
+    static size_t msb(size_t v)
+    {
+        for(size_t i=1; i<sizeof(size_t)*8; i<<=1) v |= v>>i;
+        return (v>>1)+1;
+    }
+public:
+    explicit fenwick(size_t N):a(N+1,0){}
+    void add(size_t i, T v)
+    {
+        const size_t N = a.size()-1;
+        for(size_t x=i+1; x<=N; x+=x&-x) a[x]+=v;
+    }
+    T sum(size_t i)
+    {
+        T t=0;
+        for(size_t x=i; x>0; x-=x&-x) t+=a[x];
+        return t;
+    }
+    T sum(size_t i, size_t j){ return sum(j)-sum(i); }
+    size_t lower_bound(T v)
+    {
+        if(v<=0) return 0;
+        const size_t N = a.size()-1;
+        size_t i=0;
+        for(size_t k=msb(N); k>0; k>>=1)
+            if (i+k<=N && v>a[i+k])
+            {
+                v -= a[i+k];
+                i += k;
+            }
+        return i;
+    }
+};
+
 // Longest Common Subsequence
 template<class T, class S=int>
 S lcs(const T& a, const T& b)

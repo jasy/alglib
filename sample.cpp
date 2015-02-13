@@ -95,6 +95,30 @@ int main()
         mint<long long> b(100000);
         assert(999999937==(b*b)());
     }
+    // Fenwick Tree (Binary Indexed Tree)
+    {
+        enum{ N=100 };
+        fenwick<int> t(N);
+        t.add(0,1);
+        t.add(N/2,1);
+        assert(0==t.sum(0));
+        assert(1==t.sum(1));
+        assert(1==t.sum(N/2));
+        assert(2==t.sum(N/2+1));
+        assert(2==t.sum(N));
+        assert(0==t.lower_bound(0));
+        assert(0==t.lower_bound(1));
+        assert(N/2==t.lower_bound(2));
+        assert(N==t.lower_bound(3));
+        t.add(N/2,-1);
+        t.add(0,-1);
+        for(int i=0; i<N; ++i) t.add(i,i+1);
+        assert(N*(N+1)/2==t.sum(N));
+        for(int i=0; i<N; ++i){ assert(i*(i+1)/2==t.sum(i)); }
+        for(int i=0; i<N; ++i) t.add(i,N-(i+1));
+        assert(N*N==t.sum(0,N));
+        for(int i=0; i<N; ++i){ assert(N*(N-i)==t.sum(i,N)); }
+    }
     // Longest Common Subsequence
     assert(3==lcs<std::string>("13579","395678"));
     {
