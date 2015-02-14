@@ -159,6 +159,57 @@ public:
     static mint c(T n, T k){ return C<T,mint>(n,k); }
 };
 
+// Square Matrix
+template<class T, template<class> class Plus=std::plus, template<class> class Mul=std::multiplies, T PlusUnit=0, T MulUnit=1>
+class SquareMatrix
+{
+    std::vector<T> a;
+    static void update(T& a, T b, T c){ a = Plus<T>()(a, Mul<T>()(b,c)); }
+    SquareMatrix& operator=(SquareMatrix&& m){ this->a = std::move(m.a); return *this; }
+public:
+    const size_t N;
+    explicit SquareMatrix(size_t N):a(N*N,PlusUnit),N(N){}
+    SquareMatrix(const SquareMatrix& m):a(m.a),N(m.N){}
+    SquareMatrix(SquareMatrix&& m):a(std::move(m.a)),N(m.N){}
+    T& operator()(size_t r, size_t c){ return a[r*N+c]; }
+    T operator()(size_t r, size_t c)const{ return a[r*N+c]; }
+    std::vector<T> operator*(const std::vector<T>& v)const
+    {
+        const auto N=this->N;
+        assert(N==v.size());
+        auto& m = *this;
+        std::vector<T> v2(N);
+        for(size_t r=0; r<N; ++r)
+            for(size_t c=0; c<N; ++c)
+                update(v2[r],m(r,c),v[c]);
+        return v2;
+    }
+    SquareMatrix& operator*=(const SquareMatrix& m){ return *this = std::move(*this*m); }
+    friend SquareMatrix operator*(const SquareMatrix& lhs, const SquareMatrix& rhs)
+    {
+        const auto N=lhs.N;
+        assert(N==rhs.N);
+        SquareMatrix m(N);
+        for(size_t r=0; r<N; ++r)
+            for(size_t c=0; c<N; ++c)
+                for(size_t i=0; i<N; ++i)
+                    update(m(r,c),lhs(r,i),rhs(i,c));
+        return m;
+    }
+    SquareMatrix pow(unsigned int n)const
+    {
+        SquareMatrix a(*this);
+        SquareMatrix t(N); for(size_t i=0; i<N; ++i) t(i,i)=MulUnit;
+        while(n)
+        {
+            if(n&1) t*=a;
+            a*=a;
+            n>>=1;
+        }
+        return t;
+    }
+};
+
 // Fenwick Tree (Binary Indexed Tree)
 template<class T>
 class fenwick

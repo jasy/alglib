@@ -95,6 +95,53 @@ int main()
         mint<long long> b(100000);
         assert(999999937==(b*b)());
     }
+    // Square Matrix
+    {
+        enum{ N=3 };
+        SquareMatrix<int> m(N);
+        for(int i=0; i<N; ++i)
+            m(i,i) = 1;
+        m*=m*m;
+        for(int r=0; r<N; ++r) for(int c=0; c<N; ++c)
+            { assert(m(r,c)==(r==c?1:0)); }
+        {
+            auto t = m.pow(1000000000);
+            for(int r=0; r<N; ++r) for(int c=0; c<N; ++c)
+                { assert(t(r,c)==(r==c?1:0)); }
+        }
+        for(int r=0; r<N; ++r) for(int c=0; c<N; ++c)
+            m(r,c) = r+1;
+        {
+            auto t = m*m;
+            for(int r=0; r<N; ++r) for(int c=0; c<N; ++c)
+                { assert(t(r,c)==N*(N+1)/2*(r+1)); }
+        }
+        {
+            auto t = m.pow(2);
+            for(int r=0; r<N; ++r) for(int c=0; c<N; ++c)
+                { assert(t(r,c)==N*(N+1)/2*(r+1)); }
+        }
+        std::vector<int> v(N);
+        for(int i=0; i<N; ++i) v[i]=i+1;
+        {
+            auto t = m*v;
+            for(int i=0; i<N; ++i)
+                { assert(t[i]==N*(N+1)/2*(i+1)); }
+        }
+    }
+    {
+        typedef uint32_t T;
+        enum{ N=30 };
+        const std::vector<T> A = {11627,5078,8394,6412,10346,3086,3933,668,9879,11739,4501,6108,12336,8771,2768,2438,2153,7047,5476,313,1264,369,12070,10743,10663,747,370,4671,5235,3439};
+        const std::vector<T> C = {114,3613,3271,5032,11241,6961,3628,150,12191,2396,7638,3046,11594,8162,11136,786,9878,2356,11660,1070,3649,10882,9746,1415,3307,7077,9319,9981,3437,544};
+        const T MulUnit = -1;
+        SquareMatrix<T,std::bit_xor,std::bit_and,0,MulUnit> m(N);
+        for(int i=0; i<N-1; ++i)
+            m(i,i+1)=MulUnit;
+        for(int i=0; i<N; ++i)
+            m(N-1,i)=C[N-1-i];
+        assert(2148==(m.pow(999999999-N)*A)[N-1]);
+    }
     // Fenwick Tree (Binary Indexed Tree)
     {
         enum{ N=10 };
