@@ -305,14 +305,10 @@ void wf(T& g)
 }
 
 // Shortest Path Faster Algorithm
-template<class Cost=int, class Vertex=int>
+template<class Cost=int, class Vertex=int, class E=std::pair<Cost,Vertex>>
 struct SPFA
 {
-    struct Edge
-    {
-        Cost c; Vertex v;
-        Edge(Cost c, Vertex v):c(c),v(v){}
-    };
+    typedef E Edge;
     static std::vector<Cost> spfa(const std::vector<std::vector<Edge>>& edges, Vertex s)
     {
         const Cost INF = std::numeric_limits<Cost>::max();
@@ -326,15 +322,19 @@ struct SPFA
             Vertex u = q.front();q.pop();
             r[u]=false;
             for(const Edge&e:edges[u])
-                if(d[e.v] > d[u]+e.c)
+            {
+                const Cost& c = std::get<0>(e);
+                const Vertex& v = std::get<1>(e);
+                if(d[v] > d[u]+c)
                 {
-                    d[e.v] = d[u]+e.c;
-                    if(!r[e.v])
+                    d[v] = d[u]+c;
+                    if(!r[v])
                     {
-                        r[e.v]=true;
-                        q.push(e.v);
+                        r[v]=true;
+                        q.push(v);
                     }
                 }
+            }
         }
         return d;
     }
