@@ -206,6 +206,20 @@ int main()
         wf<std::logical_and,std::logical_or>(b);
         assert(b[0][N-1]);
     }
+    // Shortest Path Faster Algorithm
+    {
+        enum{ N=3 };
+        typedef int Cost;
+        typedef int Vertex;
+        typedef SPFA<Cost,Vertex> S;
+        std::vector<std::vector<S::Edge>> edges(N);
+        for(int i=0; i<N; ++i)
+            for(int j=0; j<i; ++j)
+                edges[i].emplace_back((i-j)*(i-j),j);
+        auto cost = S::spfa(edges, N-1);
+        assert(N==cost.size());
+        for(int i=0; i<N; ++i){ assert(N-1-i==cost[i]); }
+    }
     // Lowest Common Ancestor
     {
         std::vector<std::pair<int,int>> edges1 = {{2,0},{1,0},{1,3},{1,4},{2,5},{2,6}};

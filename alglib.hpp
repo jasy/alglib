@@ -304,6 +304,42 @@ void wf(T& g)
                 g[i][j] = G<U>()(g[i][j],F<U>()(g[i][k],g[k][j]));
 }
 
+// Shortest Path Faster Algorithm
+template<class Cost=int, class Vertex=int>
+struct SPFA
+{
+    struct Edge
+    {
+        Cost c; Vertex v;
+        Edge(Cost c, Vertex v):c(c),v(v){}
+    };
+    static std::vector<Cost> spfa(const std::vector<std::vector<Edge>>& edges, Vertex s)
+    {
+        const Cost INF = std::numeric_limits<Cost>::max();
+        const Vertex N = edges.size();
+        std::vector<Cost> d(N,INF);
+        std::queue<Vertex> q;
+        std::vector<bool> r(N,false);
+        d[s]=0; r[s]=true; q.push(s);
+        while(!q.empty())
+        {
+            Vertex u = q.front();q.pop();
+            r[u]=false;
+            for(const Edge&e:edges[u])
+                if(d[e.v] > d[u]+e.c)
+                {
+                    d[e.v] = d[u]+e.c;
+                    if(!r[e.v])
+                    {
+                        r[e.v]=true;
+                        q.push(e.v);
+                    }
+                }
+        }
+        return d;
+    }
+};
+
 // Lowest Common Ancestor
 class LCA
 {
