@@ -340,6 +340,38 @@ struct SPFA
     }
 };
 
+// Dijkstra's algorithm
+template<class Cost=int, class Vertex=int, class E=std::pair<Cost,Vertex>>
+struct Dijkstra
+{
+    typedef E Edge;
+    static std::vector<Cost> dijkstra(const std::vector<std::vector<Edge>>& edges, Vertex s)
+    {
+        const Cost INF = std::numeric_limits<Cost>::max();
+        const Vertex N = edges.size();
+        std::vector<Cost> d(N,INF);
+        std::priority_queue<Edge,std::vector<Edge>,std::greater<Edge>> q;
+        q.emplace(0,s);
+        while(!q.empty())
+        {
+            const Edge& t = q.top();
+            const Cost b = std::get<0>(t);
+            const Vertex u = std::get<1>(t);
+            q.pop();
+            if(d[u]!=INF) continue;
+            d[u]=b;
+            for(const Edge&e:edges[u])
+            {
+                const Cost& c = std::get<0>(e);
+                const Vertex& v = std::get<1>(e);
+                if(d[v]==INF)
+                    q.emplace(b+c,v);
+            }
+        }
+        return d;
+    }
+};
+
 // Lowest Common Ancestor
 class LCA
 {

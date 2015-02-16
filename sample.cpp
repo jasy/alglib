@@ -220,6 +220,20 @@ int main()
         assert(N==cost.size());
         for(int i=0; i<N; ++i){ assert(N-1-i==cost[i]); }
     }
+    // Dijkstra's algorithm
+    {
+        enum{ N=3 };
+        typedef int Cost;
+        typedef int Vertex;
+        typedef Dijkstra<Cost,Vertex> D;
+        std::vector<std::vector<D::Edge>> edges(N);
+        for(int i=0; i<N; ++i)
+            for(int j=0; j<i; ++j)
+                edges[i].emplace_back((i-j)*(i-j),j);
+        auto cost = D::dijkstra(edges, N-1);
+        assert(N==cost.size());
+        for(int i=0; i<N; ++i){ assert(N-1-i==cost[i]); }
+    }
     // Lowest Common Ancestor
     {
         std::vector<std::pair<int,int>> edges1 = {{2,0},{1,0},{1,3},{1,4},{2,5},{2,6}};
