@@ -595,18 +595,18 @@ struct Vec2D
     Vec2D& operator-=(const Vec2D& v){ return *this = *this-v; }
     friend Vec2D operator+(const Vec2D& l, const Vec2D& r){ return Vec2D(l.x+r.x,l.y+r.y); }
     friend Vec2D operator-(const Vec2D& l, const Vec2D& r){ return Vec2D(l.x-r.x,l.y-r.y); }
-    friend T norm(const Vec2D& v){ return std::hypot(v.x,v.y); }
-    friend T norm2(const Vec2D& v){ return v.x*v.x+v.y*v.y; }
+    friend T abs(const Vec2D& v){ return std::hypot(v.x,v.y); }
+    friend T norm(const Vec2D& v){ return v.x*v.x+v.y*v.y; }
     friend T dot(const Vec2D& l, const Vec2D& r){ return l.x*r.x+l.y*r.y; }
     friend T cross(const Vec2D& l, const Vec2D& r){ return l.x*r.y-l.y*r.x; }
     friend int dir(const Vec2D& l, const Vec2D& r)
     {
-        // assert(norm2(l)!=0);
+        // assert(norm(l)!=0);
         const auto c = cross(l,r);
         if(c>0) return 1;
         if(c<0) return -1;
         if(dot(l,r)<0) return -2;
-        if(norm2(l)<norm2(r)) return 2;
+        if(norm(l)<norm(r)) return 2;
         return 0;
     }
 };
@@ -642,14 +642,14 @@ public:
     {
         return std::abs(a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y))/2;
     }
-    T dist_a() const { return norm(b-c); }
-    T dist_b() const { return norm(c-a); }
-    T dist_c() const { return norm(a-b); }
+    T dist_a() const { return abs(b-c); }
+    T dist_b() const { return abs(c-a); }
+    T dist_c() const { return abs(a-b); }
     Vec2D<T> circumcenter() const
     {
         const Vec2D<T> vb(2*(b.x-a.x),2*(c.x-a.x)),
                        vc(2*(b.y-a.y),2*(c.y-a.y)),
-                       vd(norm2(a)-norm2(b),norm2(a)-norm2(c));
+                       vd(norm(a)-norm(b),norm(a)-norm(c));
         return Vec2D<T>(cross(vc,vd)/cross(vb,vc),
                         cross(vd,vb)/cross(vb,vc));
     }
