@@ -5,6 +5,7 @@
 #include <map>
 #include <array>
 #include <tuple>
+#include <cstdint>
 #include <cassert>
 
 #include "alglib.hpp"
@@ -175,6 +176,16 @@ int main()
         for(int i=0; i<N; ++i) t.add(0,i,1);
         assert(N*N==t.sum(0,N));
         for(int i=0; i<N; ++i){ assert(N*(N-i)==t.sum(i,N)); }
+    }
+    {
+        enum{ N=3, M=5 };
+        fenwick2D<int> t(N,M);
+        for(int i=0; i<N; ++i) for(int j=0; j<M; ++j) t.add(i,j,1);
+        assert(N*M==t.sum(N,M));
+        for(int i=0; i<N; ++i) for(int j=0; j<M; ++j){ assert(i*j==t.sum(i,j)); }
+        for(int i1=0; i1<N; ++i1) for(int j1=0; j1<M; ++j1)
+            for(int i2=i1; i2<N; ++i2) for(int j2=j1; j2<M; ++j2)
+                { assert((i2-i1)*(j2-j1)==t.sum(i1,j1,i2,j2)); }
     }
     // Longest Common Subsequence
     assert(3==lcs<std::string>("13579","395678"));

@@ -211,6 +211,9 @@ public:
 };
 
 // Fenwick Tree (Binary Indexed Tree)
+#ifdef _MSC_VER
+#pragma warning(disable:4146)
+#endif
 template<class T>
 class fenwick
 {
@@ -264,6 +267,37 @@ public:
     T sum(size_t i){ return p.sum(i+1)+q.sum(i+1)*T(i); }
     T sum(size_t i, size_t j){ return sum(j)-sum(i); }
 };
+template<class T>
+class fenwick2D
+{
+    size_t N_,M_;
+    std::vector<T> a;
+public:
+    explicit fenwick2D(size_t N, size_t M):N_(N),M_(M),a((N+1)*(M+1),0){}
+    void add(size_t i, size_t j, T v)
+    {
+        const size_t N=N_, M=M_;
+        for(size_t x=i+1; x<=N; x+=x&-x)
+            for(size_t y=j+1; y<=M; y+=y&-y)
+                a[x*(M+1)+y]+=v;
+    }
+    T sum(size_t i, size_t j)
+    {
+        T t=0;
+        const size_t M=M_;
+        for(size_t x=i; x>0; x-=x&-x)
+            for(size_t y=j; y>0; y-=y&-y)
+                t+=a[x*(M+1)+y];
+        return t;
+    }
+    T sum(size_t i1, size_t j1, size_t i2, size_t j2)
+    {
+        return sum(i2,j2)-sum(i2,j1)-sum(i1,j2)+sum(i1,j1);
+    }
+};
+#ifdef _MSC_VER
+#pragma warning(default:4146)
+#endif
 
 // Longest Common Subsequence
 template<class T, class S=int>
