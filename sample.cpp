@@ -41,6 +41,11 @@ int main()
     // Prime Factors
     assert(primes(103)==std::vector<int>({103}));
     assert(primes(2*3*3*7*13*13*13)==std::vector<int>({2,3,3,7,13,13,13}));
+    // Divisors
+    assert(divisors(129402307)==std::vector<int>({1,129402307}));
+    assert(divisors(2*3*5)==std::vector<int>({1,2,3,5,6,10,15,30}));
+    assert(divisors(2*2*3*3)==std::vector<int>({1,2,3,4,6,9,12,18,36}));
+    assert(divisors(2*2*3*5)==std::vector<int>({1,2,3,4,5,6,10,12,15,20,30,60}));
     // Euler's phi function
     assert(euler_phi(1)==1);
     assert(euler_phi(2)==1);

@@ -62,6 +62,21 @@ std::vector<T> primes(T n)
     return ps;
 }
 
+// Divisors
+template<class T>
+std::vector<T> divisors(T n)
+{
+    std::vector<T> ds,lds;
+    for(T i=1; i*i<=n; ++i)
+        if(n%i==0)
+            ds.push_back(i),
+            lds.push_back(n/i);
+    const int m = ds[ds.size()-1]==lds[lds.size()-1]?1:0;
+    ds.reserve(ds.size()*2-m);
+    ds.insert(ds.end(),lds.rbegin()+m,lds.rend());
+    return ds;
+}
+
 // Euler's phi function
 template<class T>
 T euler_phi(T n)
