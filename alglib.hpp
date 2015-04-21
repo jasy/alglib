@@ -644,6 +644,8 @@ struct Vec2D
     Vec2D& operator-=(const Vec2D& v){ return *this = *this-v; }
     friend Vec2D operator+(const Vec2D& l, const Vec2D& r){ return Vec2D(l.x+r.x,l.y+r.y); }
     friend Vec2D operator-(const Vec2D& l, const Vec2D& r){ return Vec2D(l.x-r.x,l.y-r.y); }
+    friend bool operator==(const Vec2D& l, const Vec2D& r){ return l.x==r.x && l.y==r.y; }
+    friend bool operator!=(const Vec2D& l, const Vec2D& r){ return !(l==r); }
     friend T abs(const Vec2D& v){ return std::hypot(v.x,v.y); }
     friend T norm(const Vec2D& v){ return v.x*v.x+v.y*v.y; }
     friend T dot(const Vec2D& l, const Vec2D& r){ return l.x*r.x+l.y*r.y; }
@@ -657,6 +659,12 @@ struct Vec2D
         if(dot(l,r)<0) return -2;
         if(norm(l)<norm(r)) return 2;
         return 0;
+    }
+    bool upperArg()const{ return y>0 || (y==0 && x>0); }
+    static bool cmpArg(const Vec2D& l, const Vec2D& r)
+    {
+        if(l.upperArg()==r.upperArg()) return dir(l,r)>0;
+        return l.upperArg();
     }
 };
 
