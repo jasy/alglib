@@ -656,14 +656,14 @@ struct Vec2D
         const auto c = cross(l,r);
         if(c>0) return 1;
         if(c<0) return -1;
-        if(dot(l,r)<0) return -2;
-        if(norm(l)<norm(r)) return 2;
+        if(dot(l,r)<0) return 2;
+        if(norm(l)<norm(r)) return -2;
         return 0;
     }
     bool upperArg()const{ return y>0 || (y==0 && x>0); }
     static bool cmpArg(const Vec2D& l, const Vec2D& r)
     {
-        if(l.upperArg()==r.upperArg()) return dir(l,r)>0;
+        if(l.upperArg()==r.upperArg()) return cross(l,r)>0;
         return l.upperArg();
     }
 };

@@ -377,7 +377,7 @@ int main()
         std::array<T3,1> edges3 = {{T3{0,1}}};
         assert(1==bm(edges3,2));
     }
-    // Vector 2D
+    // Argument of Vector 2D
     {
         typedef Vec2D<int> T;
         const std::vector<T> p = {T(1,0),T(1,1),T(0,1),T(-1,1),T(-1,0),T(-1,-1),T(0,-1),T(1,-1)};
@@ -386,8 +386,6 @@ int main()
         for(int i=0; i<N; ++i)
             for(int j=0; j<N; ++j)
             { assert((i<j) == T::cmpArg(p[i],p[j])); }
-        assert(!T::cmpArg(T(1,2),T(1,2)));
-        assert( T::cmpArg(T(1,2),T(2,4)));
         std::vector<T> q(p.rbegin(),p.rend());
         for(int i=0; i<N; ++i){ assert(p[i]==q[N-1-i]); }
         assert(p!=q);
