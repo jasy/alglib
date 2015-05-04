@@ -675,6 +675,11 @@ class ConvexHull
 {
     typedef std::vector<Vec2D<T>> Container;
     Container p;
+    static bool less(const Vec2D<T>& a, const Vec2D<T>& b)
+    {
+        if(a.x!=b.x) return a.x<b.x;
+        return a.y<b.y;
+    }
     ConvexHull(){}
 public:
     explicit ConvexHull(Container p):p(convex_hull(p)){}
@@ -690,10 +695,7 @@ public:
     static Container convex_hull(Container p)
     {
         const int N = p.size();
-        std::sort(p.begin(),p.end(),[](const Vec2D<T>& a, const Vec2D<T>& b)->bool{
-                if(a.x!=b.x) return a.x<b.x;
-                return a.y<b.y;
-                });
+        std::sort(p.begin(),p.end(),less);
         Container q; q.reserve(N+1);
         for(const auto&v:p)
         {
