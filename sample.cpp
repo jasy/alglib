@@ -392,6 +392,16 @@ int main()
         std::sort(q.begin(),q.end(),T::cmpArg);
         assert(p==q);
     }
+    // Convex hull
+    {
+        typedef int V;
+        typedef Vec2D<V> T;
+        const std::vector<T> p = {T(1,0),T(1,1),T(0,1),T(-1,1),T(-1,0),T(-1,-1),T(0,-1),T(1,-1)};
+        const ConvexHull<V> ch(p);
+        const std::vector<T> q = {T(-1,-1),T(1,-1),T(1,1),T(-1,1)};
+        assert(q==ch());
+        assert(4==ch.area());
+    }
     // Line segment intersection
     {
         typedef Line2D<int> T;

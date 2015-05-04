@@ -6,6 +6,7 @@
 #include <limits>
 #include <cmath>
 #include <type_traits>
+#include <cassert>
 
 // Greatest Common Divisor
 template<class T>
@@ -650,6 +651,7 @@ struct Vec2D
     friend T norm(const Vec2D& v){ return v.x*v.x+v.y*v.y; }
     friend T dot(const Vec2D& l, const Vec2D& r){ return l.x*r.x+l.y*r.y; }
     friend T cross(const Vec2D& l, const Vec2D& r){ return l.x*r.y-l.y*r.x; }
+    friend T cross(const Vec2D& b, const Vec2D& l, const Vec2D& r){ return cross(l-b,r-b); }
     friend int dir(const Vec2D& l, const Vec2D& r)
     {
         // assert(norm(l)!=0);
@@ -665,6 +667,48 @@ struct Vec2D
     {
         if(l.upperArg()==r.upperArg()) return cross(l,r)>0;
         return l.upperArg();
+    }
+};
+
+template<class T>
+class ConvexHull
+{
+    typedef std::vector<Vec2D<T>> Container;
+    Container p;
+    ConvexHull(){}
+public:
+    explicit ConvexHull(Container p):p(convex_hull(p)){}
+    const Container& operator()()const{ return p; }
+    template<class U=double> U area() const
+    {
+        const int N = p.size();
+        U s=0;
+        for(int i=0; i<N; ++i)
+            s += cross(p[i],p[(i+1)%N]);
+        return std::abs(s)/2;
+    }
+    static Container convex_hull(Container p)
+    {
+        const int N = p.size();
+        std::sort(p.begin(),p.end(),[](const Vec2D<T>& a, const Vec2D<T>& b){
+                if(a.x!=b.x) return a.x<b.x;
+                return a.y<b.y;
+                });
+        Container q; q.reserve(N+1);
+        for(const auto&v:p)
+        {
+            while(q.size()>=2 && cross(q[q.size()-2],q[q.size()-1],v)<=0) q.pop_back();
+            q.emplace_back(v);
+        }
+        const auto s = q.size()+1;
+        for(int i=N-2; i>=0; --i)
+        {
+            const auto& v = p[i];
+            while(q.size()>=s && cross(q[q.size()-2],q[q.size()-1],v)<=0) q.pop_back();
+            q.emplace_back(v);
+        }
+        q.pop_back();
+        return q;
     }
 };
 
@@ -713,9 +757,9 @@ public:
     T R() const { return dist_a()*dist_b()*dist_c()/(4*area()); }
     bool inside(const Vec2D<T>& p, bool line=true) const
     {
-        const auto c1 = cross(b-a,p-a);
-        const auto c2 = cross(c-b,p-b);
-        const auto c3 = cross(a-c,p-c);
+        const auto c1 = cross(a,b,p);
+        const auto c2 = cross(b,c,p);
+        const auto c3 = cross(c,a,p);
         if(line) return (c1>=0&&c2>=0&&c3>=0)||(c1<=0&&c2<=0&&c3<=0);
         else     return (c1> 0&&c2> 0&&c3> 0)||(c1< 0&&c2< 0&&c3< 0);
     }
