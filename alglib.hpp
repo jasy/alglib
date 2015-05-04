@@ -690,7 +690,7 @@ public:
     static Container convex_hull(Container p)
     {
         const int N = p.size();
-        std::sort(p.begin(),p.end(),[](const Vec2D<T>& a, const Vec2D<T>& b){
+        std::sort(p.begin(),p.end(),[](const Vec2D<T>& a, const Vec2D<T>& b)->bool{
                 if(a.x!=b.x) return a.x<b.x;
                 return a.y<b.y;
                 });
