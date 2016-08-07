@@ -186,10 +186,10 @@ TEST(Fenwick, standard)
     EXPECT_EQ(1, t.sum(N/2));
     EXPECT_EQ(2, t.sum(N/2+1));
     EXPECT_EQ(2, t.sum(N));
-    EXPECT_EQ(0, t.lower_bound(0));
-    EXPECT_EQ(0, t.lower_bound(1));
-    EXPECT_EQ(N/2, t.lower_bound(2));
-    EXPECT_EQ(N, t.lower_bound(3));
+    EXPECT_EQ(size_t(0), t.lower_bound(0));
+    EXPECT_EQ(size_t(0), t.lower_bound(1));
+    EXPECT_EQ(size_t(N/2), t.lower_bound(2));
+    EXPECT_EQ(size_t(N), t.lower_bound(3));
     t.add(N/2,-1);
     t.add(0,-1);
     for(int i=0; i<N; ++i) t.add(i,i+1);
