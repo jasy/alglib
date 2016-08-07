@@ -22,7 +22,7 @@ clean:
 	find . -name "*.gc??" -exec rm -rf {} \;
 
 get-deps:
-	pip install cpp-coveralls
+	pip install --user cpp-coveralls
 
 coveralls:
 	coveralls --exclude gtest --gcov-options '\-lp'
