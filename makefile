@@ -1,5 +1,9 @@
 CXXFLAGS := -std=c++0x -Wall -Wextra -O3 -march=native -I. -pthread
 LDFLAGS := -pthread
+ifeq ($(buildtype),coverage)
+	CXXFLAGS += -coverage
+	LDFLAGS += -coverage
+endif
 
 INCS := alglib.hpp
 OBJS := sample.o gtest/gtest-all.o
@@ -15,3 +19,10 @@ test: $(PROG)
 
 clean:
 	$(RM) $(PROG) $(OBJS)
+	find . -name "*.gc??" -exec rm -rf {} \;
+
+get-deps:
+	pip install cpp-coveralls
+
+coveralls:
+	coveralls --exclude gtest --gcov-options '\-lp'

@@ -2,4 +2,6 @@ language: cpp
 compiler:
   - gcc
   - clang
-script: make test
+before_install: make get-deps
+script: make test buildtype=coverage
+after_success: make coveralls
