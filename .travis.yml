@@ -2,4 +2,4 @@ language: cpp
 compiler:
   - gcc
   - clang
-script: $CXX -std=c++0x -Wall -Wextra -O3 -march=native -pthread -I. sample.cpp gtest/gtest-all.cc && ./a.out
+script: make test
