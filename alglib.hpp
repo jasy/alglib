@@ -315,6 +315,24 @@ public:
 #pragma warning(default:4146)
 #endif
 
+// Levenshtein Distance (Edit Distance)
+template<class T, class S=int>
+static S ld(const T& a, const T& b)
+{
+    const int N = b.size();
+    std::vector<S> dp(N+1); std::iota(dp.begin(),dp.end(),0);
+    std::vector<S> dpn(N+1);
+    for(const auto v: a)
+    {
+        dpn[0]=dp[0]+1;
+        for(int i=0; i<N; ++i)
+            if(v==b[i]) dpn[i+1]=dp[i];
+            else dpn[i+1]=std::min({dp[i],dp[i+1],dpn[i]})+1;
+        dp.swap(dpn);
+    }
+    return dp[N];
+}
+
 // Longest Common Subsequence
 template<class T, class S=int>
 S lcs(const T& a, const T& b)

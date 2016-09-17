@@ -224,8 +224,22 @@ TEST(Fenwick, 2D)
             { EXPECT_EQ((i2-i1)*(j2-j1), t.sum(i1,j1,i2,j2)); }
 }
 
+// Levenshtein Distance (Edit Distance)
+TEST(Subsequence, EditDistance)
+{
+    EXPECT_EQ(0, ld<std::string>("",""));
+    EXPECT_EQ(0, ld<std::string>("abc","abc"));
+    EXPECT_EQ(4, ld<std::string>("abcdef","abfghi"));
+    EXPECT_EQ(2, ld<std::string>("abcdef","bcdefg"));
+    {
+        std::vector<int> a = {  1,  2,  3,  4,  5,  6,  7,  8,  9, 10 };
+        std::vector<int> b = {  2,  3, 30,  4,  5,  6, 31,  7, 32,  9, 10 };
+        EXPECT_EQ(4, ld(a,b));
+    }
+}
+
 // Longest Common Subsequence
-TEST(LongestSubsequence, Common)
+TEST(Subsequence, LongestCommon)
 {
     EXPECT_EQ(3, lcs<std::string>("13579","395678"));
     {
@@ -236,7 +250,7 @@ TEST(LongestSubsequence, Common)
 }
 
 // Longest Increasing Subsequence
-TEST(LongestSubsequence, Increasing)
+TEST(Subsequence, LongestIncreasing)
 {
     EXPECT_EQ(4, lis(std::string("135246")));
     EXPECT_EQ(1, lis(std::string("54321")));
