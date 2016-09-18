@@ -130,6 +130,19 @@ U C(T n, T k)
     for(T i=2; i<=k; ++i) rd*=i;
     return rn/rd;
 }
+// List of Combination
+template<class T, class U=T>
+std::vector<std::vector<U>> Cs(T n)
+{
+    std::vector<std::vector<U>> comb(n+1,std::vector<U>(n+1,0));
+    comb[0][0]=1;
+    for(T i=1; i<=n; ++i)
+    {
+        comb[i][0]=1;
+        for(T j=1; j<=i; ++j) comb[i][j]=comb[i-1][j]+comb[i-1][j-1];
+    }
+    return comb;
+}
 
 // Modulo Integer
 template<class T1, class T2> struct max_type{ typedef typename std::conditional<sizeof(T1)>=sizeof(T2),T1,T2>::type type; };

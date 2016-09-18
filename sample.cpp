@@ -98,6 +98,21 @@ TEST(Integer, SquareRoot)
     EXPECT_EQ(4000000000ULL, isqrt(16000000000000000001ULL));
 }
 
+// Combination
+TEST(Integer, Combination)
+{
+    EXPECT_EQ(1, C(1,0));
+    EXPECT_EQ(1, C(1,1));
+    EXPECT_EQ((10*9*8*7*6)/(5*4*3*2*1), C(10,5));
+    EXPECT_EQ((20*19)/(2*1), C(20,2));
+    EXPECT_EQ((20*19*18)/(3*2*1), C(20,17));
+    EXPECT_EQ(5200300ULL, C(25ULL,12ULL));
+    const int N=25;
+    const auto comb = Cs<int>(N); // No overflow
+    typedef unsigned long long T;
+    for(T n=0; n<=N; ++n) for(T k=0; k<=n; ++k){ EXPECT_EQ(C(n,k),T(comb[n][k])); }
+}
+
 // Modulo Integer
 TEST(Integer, ModuloInteger)
 {
