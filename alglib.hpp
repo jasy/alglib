@@ -122,14 +122,13 @@ T POW(T a, U n)
 template<class T, class U=T>
 U C(T n, T k)
 {
-    U r=1;
+    U rn=1;
     k=std::max<T>(k,n-k);
-    for(T i=n; i>k; --i)
-        r*=i;
+    for(T i=n; i>k; --i) rn*=i;
     k=n-k;
-    for(T i=2; i<=k; ++i)
-        r/=i;
-    return r;
+    U rd=1;
+    for(T i=2; i<=k; ++i) rd*=i;
+    return rn/rd;
 }
 
 // Modulo Integer
