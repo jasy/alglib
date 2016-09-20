@@ -135,8 +135,7 @@ template<class T, class U=T>
 std::vector<std::vector<U>> Cs(T n)
 {
     std::vector<std::vector<U>> comb(n+1,std::vector<U>(n+1,0));
-    comb[0][0]=1;
-    for(T i=1; i<=n; ++i)
+    for(T i=0; i<=n; ++i)
     {
         comb[i][0]=1;
         for(T j=1; j<=i; ++j) comb[i][j]=comb[i-1][j]+comb[i-1][j-1];
