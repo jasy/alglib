@@ -348,18 +348,25 @@ TEST(Graph, UnionFind)
     {
         UnionFind<int> uf(6);
         EXPECT_FALSE(uf.same(2,5));
+        EXPECT_EQ(1, uf.count(0));
+        EXPECT_EQ(6, uf.count());
         std::vector<std::pair<int,int>> edges = {{0,4},{0,5},{1,3},{1,4},{2,3}};
         for(auto& e: edges)
             uf.unite(e.first,e.second);
         for(auto& e: edges)
             EXPECT_TRUE (uf.same(e.first,e.second));
         EXPECT_TRUE (uf.same(2,5));
+        EXPECT_EQ(6, uf.count(0));
+        EXPECT_EQ(1, uf.count());
     }
     {
         UnionFind<int> uf(6);
         EXPECT_FALSE(uf.same(2,5));
         EXPECT_FALSE(uf.same(1,2));
         EXPECT_FALSE(uf.same(4,5));
+        EXPECT_EQ(1, uf.count(2));
+        EXPECT_EQ(1, uf.count(5));
+        EXPECT_EQ(6, uf.count());
         std::vector<std::pair<int,int>> edges = {{0,4},{0,5},{1,3},{2,3}};
         for(auto& e: edges)
             uf.unite(e.first,e.second);
@@ -368,6 +375,28 @@ TEST(Graph, UnionFind)
         EXPECT_FALSE(uf.same(2,5));
         EXPECT_TRUE (uf.same(1,2));
         EXPECT_TRUE (uf.same(4,5));
+        EXPECT_EQ(3, uf.count(2));
+        EXPECT_EQ(3, uf.count(5));
+        EXPECT_EQ(2, uf.count());
+    }
+    {
+        UnionFind<int> uf(6);
+        EXPECT_EQ(1, uf.count(0));
+        EXPECT_EQ(1, uf.count(1));
+        EXPECT_EQ(1, uf.count(2));
+        EXPECT_EQ(6, uf.count());
+        std::vector<std::pair<int,int>> edges = {{1,3},{2,4},{4,5}};
+        for(auto& e: edges)
+            uf.unite(e.first,e.second);
+        for(auto& e: edges)
+            EXPECT_TRUE (uf.same(e.first,e.second));
+        EXPECT_FALSE(uf.same(0,1));
+        EXPECT_FALSE(uf.same(0,2));
+        EXPECT_FALSE(uf.same(1,2));
+        EXPECT_EQ(1, uf.count(0));
+        EXPECT_EQ(2, uf.count(1));
+        EXPECT_EQ(3, uf.count(2));
+        EXPECT_EQ(3, uf.count());
     }
 }
 

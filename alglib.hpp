@@ -512,8 +512,8 @@ public:
 template<class T=int>
 class UnionFind
 {
-    std::vector<T> p;
-    std::vector<T> r;
+    std::vector<T> p,r,c;
+    T n;
     T find(const T x)
     {
         if(x==p[x]) return x;
@@ -525,9 +525,11 @@ class UnionFind
         if(r[x]>r[y]) std::swap(x,y);
         else if(r[x]==r[y]) ++r[y];
         p[x]=y;
+        c[y]+=c[x];
+        --n;
     }
 public:
-    explicit UnionFind(const T n):p(n),r(n,0)
+    explicit UnionFind(const T n):p(n),r(n,0),c(n,1),n(n)
     {
         for(T i=0; i<n; ++i)
             p[i]=i;
@@ -544,6 +546,8 @@ public:
         // assert(0<=y && y<p.size())
         unite_(find(x),find(y));
     }
+    T count(const T x){ return c[find(x)]; }
+    T count(){ return n; }
 };
 
 // Kruskal's algorithm
