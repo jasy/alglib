@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/jasy/alglib.svg?branch=master)](https://travis-ci.org/jasy/alglib)
 [![Coverage Status](https://coveralls.io/repos/github/jasy/alglib/badge.svg?branch=master)](https://coveralls.io/github/jasy/alglib?branch=master)
+![Action Status](https://github.com/jasy/alglib/workflows/C++%20CI/badge.svg)
 
 alglib
 ======
