@@ -12,11 +12,13 @@ jobs:
         cxx: [g++, clang++]
 
     steps:
-      - uses: actions/checkout@v7
+      - &checkout_step
+        uses: actions/checkout@v7
         with:
           submodules: recursive
 
-      - name: Setup C++ compiler
+      - &setup_compiler_step
+        name: Setup C++ compiler
         run: ${CXX} --version
         env:
           CXX: ${{ matrix.cxx }}
@@ -27,7 +29,7 @@ jobs:
           CXX: ${{ matrix.cxx }}
 
       - name: Build
-        run: cmake --build build --config Release
+        run: cmake --build build --config Release --parallel
 
       - name: Run tests
         run: cmake --build build --config Release --target test
@@ -42,14 +44,8 @@ jobs:
         cxx: [g++]
 
     steps:
-      - uses: actions/checkout@v7
-        with:
-          submodules: recursive
-
-      - name: Setup C++ compiler
-        run: ${CXX} --version
-        env:
-          CXX: ${{ matrix.cxx }}
+      - *checkout_step
+      - *setup_compiler_step
 
       - name: Configure coverage build
         run: cmake -S . -B build-coverage -DCMAKE_CXX_COMPILER=${{ env.CXX }} -DENABLE_COVERAGE=ON
@@ -57,7 +53,7 @@ jobs:
           CXX: ${{ matrix.cxx }}
 
       - name: Build coverage target
-        run: cmake --build build-coverage --config Debug -- -j2
+        run: cmake --build build-coverage --config Debug --parallel
 
       - name: Run coverage tests
         run: ctest --test-dir build-coverage --output-on-failure
