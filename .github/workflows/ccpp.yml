@@ -9,9 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Coverage generation relies on gcov/gcovr: use GCC only to avoid
-        # clang/llvm gcov format incompatibilities on runners.
-        cxx: [g++]
+        cxx: [g++, clang++]
 
     steps:
       - uses: actions/checkout@v7
@@ -39,7 +37,9 @@ jobs:
     needs: build
     strategy:
       matrix:
-        cxx: [g++, clang++]
+        # Coverage generation relies on gcov/gcovr: use GCC only to avoid
+        # clang/llvm gcov format incompatibilities on runners.
+        cxx: [g++]
 
     steps:
       - uses: actions/checkout@v7
