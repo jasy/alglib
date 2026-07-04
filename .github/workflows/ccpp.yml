@@ -12,7 +12,7 @@ jobs:
         cxx: [g++, clang++]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Build and Run test
       run: ${CXX} --version && make test
       env:
