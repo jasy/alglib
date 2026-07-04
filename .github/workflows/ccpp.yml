@@ -70,8 +70,13 @@ jobs:
           mkdir -p coverage
           python3 -m gcovr -r . --object-directory build-coverage --exclude googletest --html --html-details -o coverage/index.html
 
+      - name: Show coverage files
+        run: |
+          echo "Coverage directory listing:";
+          ls -la coverage || true
+
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/index.html
+          path: coverage
