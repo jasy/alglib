@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/jasy/alglib.svg?branch=master)](https://travis-ci.org/jasy/alglib)
-[![Coverage Status](https://coveralls.io/repos/github/jasy/alglib/badge.svg?branch=master)](https://coveralls.io/github/jasy/alglib?branch=master)
 ![Action Status](https://github.com/jasy/alglib/workflows/C++%20CI/badge.svg)
 
 alglib
@@ -19,7 +17,28 @@ C++11を使っているので全機能対応の以下あたり推奨
 - Clang 3.3
 - GCC 4.8.1
 
-テスト
+ビルド / テスト
 ----
 このリポジトリは Google Test 1.12.1 を submodule として使用しています。
 Google Test のライセンスは `googletest/LICENSE` で BSD 3-clause ライセンスとして提示しています。
+
+ビルド手順:
+
+```sh
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build
+```
+
+カバレッジビルド:
+
+```sh
+cmake -S . -B build-coverage -DENABLE_COVERAGE=ON
+cmake --build build-coverage
+ctest --test-dir build-coverage
+```
+
+HTML レポートを生成するには `gcovr` が必要です。
+```sh
+gcovr -r . --exclude googletest --html --html-details -o coverage/index.html
+```

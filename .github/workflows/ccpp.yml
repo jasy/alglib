@@ -1,21 +1,75 @@
 name: C++ CI
 
-on: [push, workflow_dispatch]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    
-    strategy:    
+    strategy:
       matrix:
         cxx: [g++, clang++]
 
     steps:
-    - uses: actions/checkout@v7
-      with:
-        submodules: recursive
-    - name: Build and Run test
-      run: ${CXX} --version && make test
-      env:
-        CXX: ${{ matrix.cxx }}
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Setup C++ compiler
+        run: ${CXX} --version
+        env:
+          CXX: ${{ matrix.cxx }}
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_CXX_COMPILER=${{ env.CXX }}
+        env:
+          CXX: ${{ matrix.cxx }}
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Run tests
+        run: cmake --build build --config Release --target test
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      matrix:
+        cxx: [g++, clang++]
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Setup C++ compiler
+        run: ${CXX} --version
+        env:
+          CXX: ${{ matrix.cxx }}
+
+      - name: Configure coverage build
+        run: cmake -S . -B build-coverage -DCMAKE_CXX_COMPILER=${{ env.CXX }} -DENABLE_COVERAGE=ON
+        env:
+          CXX: ${{ matrix.cxx }}
+
+      - name: Build coverage target
+        run: cmake --build build-coverage --config Debug
+
+      - name: Run coverage tests
+        run: cmake --build build-coverage --config Debug --target test
+
+      - name: Install gcovr
+        run: python3 -m pip install --upgrade gcovr
+
+      - name: Generate coverage report
+        run: |
+          mkdir -p coverage
+          gcovr -r . --exclude googletest --html --html-details -o coverage/index.html
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/index.html

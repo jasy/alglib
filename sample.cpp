@@ -581,8 +581,5 @@ TEST(Probability, CompleteGacha)
     EXPECT_LT(224.960266, avg50);EXPECT_LT(avg50, 224.960267);
 }
 
-int main(int argc, char **argv)
-{
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// Use the gtest_main target provided by the googletest CMake project
+// (do not define a main here so users can link with gtest_main).
