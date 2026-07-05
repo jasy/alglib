@@ -50,5 +50,5 @@ jobs:
         if: matrix.coverage
         uses: actions/upload-artifact@v7
         with:
-          name: coverage-report-${{ matrix.os }}
+          name: coverage-report-${{ matrix.os }}-${{ matrix.cxx }}
           path: coverage
