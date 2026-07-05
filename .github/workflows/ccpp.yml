@@ -17,7 +17,7 @@ jobs:
 
     env:
       CXX: ${{ matrix.cxx }}
-      COV: ${{ matrix.coverage == 'true' && 'ON' || 'OFF' }}
+      COV: ${{ matrix.coverage && 'ON' || 'OFF' }}
 
     steps:
       - &checkout_step
@@ -35,7 +35,7 @@ jobs:
         run: ctest --test-dir build --output-on-failure
 
       - name: Generate coverage report
-        if: matrix.coverage == 'true'
+        if: matrix.coverage
         run: |
           python3 -m pip install --upgrade gcovr
           mkdir -p coverage
@@ -44,7 +44,7 @@ jobs:
           ls -la coverage || true
 
       - name: Upload coverage report
-        if: matrix.coverage == 'true'
+        if: matrix.coverage
         uses: actions/upload-artifact@v7
         with:
           name: coverage-report
