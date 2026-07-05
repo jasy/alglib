@@ -6,14 +6,17 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        include:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+        cxx: [g++, clang++]
+        coverage: [true, false]
+        exclude:
           - cxx: g++
-            coverage: true
-          - cxx: clang++
             coverage: false
+          - cxx: clang++
+            coverage: true
 
     env:
       CXX: ${{ matrix.cxx }}
