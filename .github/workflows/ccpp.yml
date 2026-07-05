@@ -20,7 +20,7 @@ jobs:
       COV: ${{ matrix.coverage && 'ON' || 'OFF' }}
 
     steps:
-      - &checkout_step
+      - name: Checkout repository
         uses: actions/checkout@v7
         with:
           submodules: recursive
