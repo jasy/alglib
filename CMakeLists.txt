@@ -18,9 +18,6 @@ if(ENABLE_COVERAGE)
   endif()
 endif()
 
-# Prefer building minimal GoogleTest (disable googlemock to save build time)
-find_package(Threads REQUIRED)
-
 # Disable building googlemock and samples/tests inside googletest to speed up builds.
 # Projects embedding googletest can control these via -D options when configuring.
 set(BUILD_GMOCK OFF CACHE BOOL "Do not build googlemock subproject" FORCE)
@@ -29,12 +26,8 @@ set(gtest_build_tests OFF CACHE BOOL "Do not build gtest internal tests" FORCE)
 
 # Build the vendored googletest subproject (minimal targets only).
 add_subdirectory(googletest)
-
+include(GoogleTest)
 add_executable(alglib sample.cpp)
-
-target_include_directories(alglib PRIVATE ${CMAKE_SOURCE_DIR})
-
-target_link_libraries(alglib PRIVATE gtest_main Threads::Threads)
-
+target_link_libraries(alglib PRIVATE gtest_main)
 enable_testing()
-add_test(NAME alglib COMMAND alglib)
+gtest_discover_tests(alglib)
