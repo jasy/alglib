@@ -9,7 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        cxx: [g++, clang++]
+        include:
+          - cxx: g++
+            coverage: true
+          - cxx: clang++
+            coverage: false
+
+    env:
+      CXX: ${{ matrix.cxx }}
+      COV: ${{ matrix.coverage == 'true' && 'ON' || 'OFF' }}
 
     steps:
       - &checkout_step
@@ -18,52 +26,25 @@ jobs:
           submodules: recursive
 
       - name: Configure
-        run: cmake -S . -B build -DCMAKE_CXX_COMPILER=${{ env.CXX }}
-        env:
-          CXX: ${{ matrix.cxx }}
+        run: cmake -S . -B build -DCMAKE_CXX_COMPILER=${{ env.CXX }} -DENABLE_COVERAGE=${{ env.COV }}
 
       - name: Build
         run: cmake --build build --parallel
 
       - name: Run tests
-        run: cmake --build build --target test
-
-  coverage:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # Coverage generation relies on gcov/gcovr: use GCC only to avoid
-        # clang/llvm gcov format incompatibilities on runners.
-        cxx: [g++]
-
-    steps:
-      - *checkout_step
-
-      - name: Configure coverage build
-        run: cmake -S . -B build -DCMAKE_CXX_COMPILER=${{ env.CXX }} -DENABLE_COVERAGE=ON
-        env:
-          CXX: ${{ matrix.cxx }}
-
-      - name: Build coverage target
-        run: cmake --build build --parallel
-
-      - name: Run coverage tests
         run: ctest --test-dir build --output-on-failure
 
-      - name: Install gcovr
-        run: python3 -m pip install --upgrade gcovr
-
       - name: Generate coverage report
+        if: matrix.coverage == 'true'
         run: |
+          python3 -m pip install --upgrade gcovr
           mkdir -p coverage
           python3 -m gcovr -r . --object-directory build --exclude googletest --html --html-details -o coverage/index.html
-
-      - name: Show coverage files
-        run: |
           echo "Coverage directory listing:";
           ls -la coverage || true
 
       - name: Upload coverage report
+        if: matrix.coverage == 'true'
         uses: actions/upload-artifact@v7
         with:
           name: coverage-report
