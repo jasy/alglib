@@ -13,7 +13,7 @@ jobs:
         cxx: [g++, clang++]
 
     env:
-      coverage: ${{ matrix.cxx == 'g++' }}
+      COV: ${{ matrix.cxx == 'g++' && 'ON' || 'OFF' }}
 
     steps:
       - name: Checkout repository
@@ -22,7 +22,7 @@ jobs:
           submodules: recursive
 
       - name: Configure
-        run: cmake -S . -B build -DCMAKE_CXX_COMPILER=${{ matrix.cxx }} -DENABLE_COVERAGE=${{ env.coverage && 'ON' || 'OFF' }}
+        run: cmake -S . -B build -DCMAKE_CXX_COMPILER=${{ matrix.cxx }} -DENABLE_COVERAGE=${{ env.COV }}
 
       - name: Build
         run: cmake --build build --parallel
@@ -31,7 +31,7 @@ jobs:
         run: ctest --test-dir build --output-on-failure
 
       - name: Generate coverage report
-        if: env.coverage
+        if: env.COV == 'ON'
         run: |
           python3 -m pip install --upgrade gcovr
           mkdir -p coverage
@@ -40,7 +40,7 @@ jobs:
           ls -la coverage || true
 
       - name: Upload coverage report
-        if: env.coverage
+        if: env.COV == 'ON'
         uses: actions/upload-artifact@v7
         with:
           name: coverage-report-${{ matrix.os }}-${{ matrix.cxx }}
