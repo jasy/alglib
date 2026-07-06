@@ -11,16 +11,9 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm]
         cxx: [g++, clang++]
-        coverage: [true, false]
-        exclude:
-          - cxx: g++
-            coverage: false
-          - cxx: clang++
-            coverage: true
 
     env:
-      CXX: ${{ matrix.cxx }}
-      COV: ${{ matrix.coverage && 'ON' || 'OFF' }}
+      coverage: ${{ matrix.cxx == 'g++' }}
 
     steps:
       - name: Checkout repository
@@ -29,7 +22,7 @@ jobs:
           submodules: recursive
 
       - name: Configure
-        run: cmake -S . -B build -DCMAKE_CXX_COMPILER=${{ env.CXX }} -DENABLE_COVERAGE=${{ env.COV }}
+        run: cmake -S . -B build -DCMAKE_CXX_COMPILER=${{ matrix.cxx }} -DENABLE_COVERAGE=${{ env.coverage && 'ON' || 'OFF' }}
 
       - name: Build
         run: cmake --build build --parallel
@@ -38,7 +31,7 @@ jobs:
         run: ctest --test-dir build --output-on-failure
 
       - name: Generate coverage report
-        if: matrix.coverage
+        if: env.coverage
         run: |
           python3 -m pip install --upgrade gcovr
           mkdir -p coverage
@@ -47,7 +40,7 @@ jobs:
           ls -la coverage || true
 
       - name: Upload coverage report
-        if: matrix.coverage
+        if: env.coverage
         uses: actions/upload-artifact@v7
         with:
           name: coverage-report-${{ matrix.os }}-${{ matrix.cxx }}
