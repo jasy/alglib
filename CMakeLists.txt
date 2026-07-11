@@ -11,13 +11,6 @@ endif()
 
 option(ENABLE_COVERAGE "Enable coverage instrumentation" OFF)
 
-if(ENABLE_COVERAGE)
-  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    add_compile_options(-g --coverage)
-    add_link_options(--coverage)
-  endif()
-endif()
-
 # Disable building googlemock and samples/tests inside googletest to speed up builds.
 # Projects embedding googletest can control these via -D options when configuring.
 set(BUILD_GMOCK OFF CACHE BOOL "Do not build googlemock subproject" FORCE)
@@ -30,6 +23,12 @@ add_subdirectory(googletest)
 include(GoogleTest)
 add_executable(alglib sample.cpp)
 set_target_properties(alglib PROPERTIES COMPILE_WARNING_AS_ERROR ON)
+if(ENABLE_COVERAGE)
+  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(alglib PRIVATE -g --coverage)
+    target_link_libraries(alglib PRIVATE --coverage)
+  endif()
+endif()
 target_link_libraries(alglib PRIVATE gtest_main)
 enable_testing()
 gtest_discover_tests(alglib)
