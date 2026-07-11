@@ -173,6 +173,7 @@ public:
     T operator()() const { return v; }
     mint(const mint& m):v(m.v){}
     mint(T i=T()):v(i%M){}
+    mint& operator=(const mint& m){ this->v = m.v; return *this; }
     mint& operator+=(const mint& m){ return *this = add(v,m.v); }
     mint& operator-=(const mint& m){ return *this = sub(v,m.v); }
     mint& operator*=(const mint& m){ return *this = mul(v,m.v); }
