@@ -21,6 +21,7 @@ endif()
 # Disable building googlemock and samples/tests inside googletest to speed up builds.
 # Projects embedding googletest can control these via -D options when configuring.
 set(BUILD_GMOCK OFF CACHE BOOL "Do not build googlemock subproject" FORCE)
+set(INSTALL_GTEST OFF CACHE BOOL "Do not install googletest" FORCE)
 set(gtest_build_samples OFF CACHE BOOL "Do not build gtest samples" FORCE)
 set(gtest_build_tests OFF CACHE BOOL "Do not build gtest internal tests" FORCE)
 
