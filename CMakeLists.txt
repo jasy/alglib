@@ -20,7 +20,8 @@ set(gtest_build_tests OFF CACHE BOOL "Do not build gtest internal tests" FORCE)
 
 # Build the vendored googletest subproject (minimal targets only).
 add_subdirectory(googletest)
-include(GoogleTest)
+
+# Build sample code for this algorithm library.
 add_executable(alglib sample.cpp)
 set_target_properties(alglib PROPERTIES COMPILE_WARNING_AS_ERROR ON)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -32,5 +33,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 target_link_libraries(alglib PRIVATE gtest_main)
 enable_testing()
+include(GoogleTest)
 gtest_discover_tests(alglib)
 
